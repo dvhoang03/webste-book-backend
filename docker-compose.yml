@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: book@123
+      POSTGRES_DB: book
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data   # Lưu dữ liệu PostgreSQL vào thư mục thật
+
+  redis:
+    image: redis:7.4
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data   # Dữ liệu Redis lưu trong volume
+    command: [ "redis-server", "--appendonly", "yes" ]
+    # Bật AOF để lưu dữ liệu bền vững hơn (so với chỉ RDB snapshot)
+
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: always
+    ports:
+      - "9000:9000"   # API port
+      - "9001:9001"   # Web console
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
+
+volumes:
+  redis_data:

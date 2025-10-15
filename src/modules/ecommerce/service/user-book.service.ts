@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class UserProductService extends BaseService<Book> {
+export class UserBookService extends BaseService<Book> {
   constructor(
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,

@@ -4,9 +4,10 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { config } from '@/config';
 import { JwtPayload } from '@/modules/auth/auth.interface';
+import { UserService } from '@/modules/user/user.service';
 
 function extractRefreshToken(req: Request): string | null {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const cookie = req?.cookies?.['refresh_token'];
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   if (cookie) return cookie;
@@ -20,7 +21,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
   Strategy,
   'jwt-refresh',
 ) {
-  constructor() {
+  constructor(private readonly userService: UserService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -28,17 +29,12 @@ export class JwtRefreshStrategy extends PassportStrategy(
       passReqToCallback: true,
     });
   }
-  validate(req: Request, payload: JwtPayload) {
+  async validate(req: Request, payload: JwtPayload) {
     const refreshToken = extractRefreshToken(req);
 
     if (!refreshToken) {
       throw new UnauthorizedException('No refresh token');
     }
-    return {
-      userId: payload.sub,
-      email: payload.email,
-      role: payload.role,
-      refreshToken,
-    };
+    return await this.userService.findOneID(payload.sub);
   }
 }

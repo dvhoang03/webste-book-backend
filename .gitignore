@@ -3,6 +3,9 @@
 /node_modules
 /build
 
+/minio_data
+/postgres_data
+
 # Logs
 logs
 *.log

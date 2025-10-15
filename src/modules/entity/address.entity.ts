@@ -5,8 +5,9 @@ import {
   ManyToOne,
   Index,
   CreateDateColumn,
+  JoinColumn,
 } from 'typeorm';
-import { User } from '@/modules/schema/user.schema';
+import { User } from '@/modules/entity/user.entity';
 
 @Entity({ name: 'addresses' })
 @Index(['userId', 'isDefault'])
@@ -19,8 +20,11 @@ export class Address {
   userId: string;
 
   @ManyToOne(() => User, (u) => u.addresses, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
   user: User;
 
+  @Column({ type: 'text', nullable: true }) name?: string;
+  @Column({ type: 'text', nullable: true }) phone?: string;
   @Column({ type: 'text', nullable: true }) label?: string;
   @Column({ type: 'text', nullable: true }) province?: string;
   @Column({ type: 'text', nullable: true }) district?: string;
