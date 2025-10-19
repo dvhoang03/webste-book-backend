@@ -35,6 +35,12 @@ export class UserAddressController {
     return await this.userAddressService.list(query);
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'api lấy thông tin chi tiet address' })
+  async getDetail(@Param() params: PostgresIdParam) {
+    return await this.userAddressService.getOne(params);
+  }
+
   @ApiOperation({ summary: 'api tao dia chi' })
   @Post()
   async create(@UserAuth() user: User, @Body() dto: CreateAddressDto) {

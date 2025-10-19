@@ -47,7 +47,7 @@ export class CreateUserDto {
   @IsString()
   @GenerateAndSetPath('photoPath')
   @Expose()
-  photoUrl: string;
+  photoUrl?: string;
 
   @IsOptional()
   @ApiHideProperty()
@@ -58,7 +58,7 @@ export class CreateUserDto {
   @IsString()
   @GenerateAndSetPath('thumbnailPath')
   @Expose()
-  thumbnailUrl: string;
+  thumbnailUrl?: string;
 
   @IsOptional()
   @ApiHideProperty()

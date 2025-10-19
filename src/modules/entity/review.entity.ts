@@ -30,6 +30,9 @@ export class Review {
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
+  @CreateDateColumn({ type: 'timestamptz' })
+  updatedAt: Date;
+
   @Column({ type: 'int' })
   rating: number; // 1..5
 

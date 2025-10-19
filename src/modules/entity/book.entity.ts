@@ -51,10 +51,10 @@ export class Book {
   @Column({ type: 'int', nullable: true })
   page?: number;
 
-  @Column({ type: 'int', nullable: true })
+  @Column({ type: 'float', nullable: true })
   weight?: number;
 
-  @Column({ type: 'date', nullable: true })
+  @Column({ type: 'text', nullable: true })
   publishedAt?: string;
 
   @Column({ type: 'text', nullable: true })

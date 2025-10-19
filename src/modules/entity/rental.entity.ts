@@ -11,20 +11,7 @@ import {
 import { User } from './user.entity';
 import { Address } from './address.entity';
 import { RentalItem } from './rental-item.entity';
-
-export enum RentalStatus {
-  DRAFT = 'DRAFT',
-  ACTIVE = 'ACTIVE',
-  RETURNED = 'RETURNED',
-  LATE = 'LATE',
-  CANCELLED = 'CANCELLED',
-}
-
-export enum RentalType {
-  DAILY = 'DAILY',
-  WEEKLY = 'WEEKLY',
-  MONTHLY = 'MONTHLY',
-}
+import { RentalStatus, RentalType } from '@/modules/enums/product.enum';
 
 @Entity({ name: 'rentals' })
 @Index(['userId', 'status'])

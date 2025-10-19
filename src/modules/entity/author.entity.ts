@@ -19,10 +19,10 @@ export class Author {
   bio?: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
-  createAt: Date;
+  createdAt: Date;
 
   @CreateDateColumn({ type: 'timestamptz' })
-  updateAt: Date;
+  updatedAt: Date;
 
   @OneToMany(() => BookAuthor, (ba) => ba.author)
   bookAuthors: BookAuthor[];

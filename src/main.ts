@@ -22,7 +22,7 @@ async function bootstrap() {
   const logger = new LoggingService();
   app.useLogger(logger);
   app.use(cookieParser());
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix('api/v1/');
 
   app.useGlobalFilters(new HttpExceptionFilter(logger));
 
@@ -33,15 +33,15 @@ async function bootstrap() {
       transform: true, // auto transform theo DTO
       stopAtFirstError: true,
       transformOptions: { enableImplicitConversion: true },
-      exceptionFactory: (errors) => {
-        return new BadRequestException({
-          message: 'Validation failed',
-          errors: errors.map((e) => ({
-            field: e.property,
-            constraints: Object.values(e.constraints ?? {}),
-          })),
-        });
-      },
+      // exceptionFactory: (errors) => {
+      //   return new BadRequestException({
+      //     message: 'Validation failed',
+      //     errors: errors.map((e) => ({
+      //       field: e.property,
+      //       constraints: Object.values(e.constraints ?? {}),
+      //     })),
+      //   });
+      // },
     }),
   );
 

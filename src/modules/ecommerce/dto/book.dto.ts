@@ -1,9 +1,9 @@
 import {
-  IS_UUID,
   IsArray,
   IsDateString,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
@@ -17,9 +17,11 @@ import {
   PartialType,
 } from '@nestjs/swagger';
 import { BaseListDto } from '@/base/service/base-list.dto';
+import { IsSkuUnique } from '@/modules/ecommerce/custom-validate/sku-product-unique.validate';
 
 export class BookDto {
   @IsString()
+  @IsSkuUnique()
   sku: string;
 
   @IsString()
@@ -46,11 +48,11 @@ export class BookDto {
   page?: number;
 
   @IsOptional()
-  @IsInt()
+  @IsNumber()
   weight?: number;
 
   @IsOptional()
-  @IsDateString()
+  @IsString()
   publishedAt?: string;
 
   @IsNotEmpty()

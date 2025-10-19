@@ -2,11 +2,11 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToOne,
   OneToMany,
   CreateDateColumn,
   UpdateDateColumn,
   Index,
+  OneToOne,
 } from 'typeorm';
 import { User } from '@/modules/entity/user.entity';
 import { CartItem } from '@/modules/entity/cart-item.entity';
@@ -20,7 +20,7 @@ export class Cart {
   @Column('uuid')
   userId: string;
 
-  @ManyToOne(() => User, (u) => u.carts, { onDelete: 'CASCADE' })
+  @OneToOne(() => User, (u) => u.cart, { onDelete: 'CASCADE' })
   user: User;
 
   @OneToMany(() => CartItem, (ci) => ci.cart, { cascade: true })

@@ -8,6 +8,8 @@ import {
 } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Book } from './book.entity';
+import { RentalType, TransactionType } from '@/modules/enums/product.enum';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 
 @Entity({ name: 'cart_items' })
 @Index(['cartId', 'bookId'], { unique: true })
@@ -27,13 +29,16 @@ export class CartItem {
   @ManyToOne(() => Book, (b) => b.cartItems, { onDelete: 'CASCADE' })
   book: Book;
 
+  @Column({ enum: TransactionType })
+  type: string;
+
   @Column({ type: 'int', default: 1 })
   quantity: number;
 
   // nếu là sản phẩm thuê: số ngày thuê
   @Column({ type: 'int', nullable: true })
-  rentDays?: number;
+  rentalType?: RentalType;
 
   @CreateDateColumn({ type: 'timestamptz' })
-  addedAt: Date;
+  createdAt: Date;
 }

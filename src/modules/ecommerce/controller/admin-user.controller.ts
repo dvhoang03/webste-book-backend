@@ -1,21 +1,8 @@
 // src/modules/users/user.controller.ts
-import {
-  Body,
-  ClassSerializerInterceptor,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Query,
-  UseGuards,
-  UseInterceptors,
-} from '@nestjs/common';
-import { BaseListDto } from '@/base/service/base-list.dto';
+import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { AdminUserService } from '@/modules/ecommerce/service/admin-user.service';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { ApiTagAndBearer } from '@/base/swagger/swagger.decorator';
-import { SkipAuth } from '@/modules/auth/auth.decorator';
-import { JwtUserGuard } from '@/modules/auth/jwt-user/jwt-user.guard';
 import {
   CreateUserDto,
   UpdateUserDto,
@@ -40,8 +27,7 @@ export class AdminUserController {
   @Get(':id')
   @ApiOperation({ summary: 'api lấy thông tin user' })
   async getDetail(@Param() params: PostgresIdParam) {
-    const user = await this.service.getOne(params);
-    return user;
+    return await this.service.getOne(params);
   }
 
   @ApiOperation({ summary: 'api sửa user' })
