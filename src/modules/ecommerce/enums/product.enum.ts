@@ -1,11 +1,3 @@
-export enum RentalStatus {
-  DRAFT = 'DRAFT',
-  ACTIVE = 'ACTIVE',
-  RETURNED = 'RETURNED',
-  LATE = 'LATE',
-  CANCELLED = 'CANCELLED',
-}
-
 export enum RentalType {
   DAILY = 'DAILY',
   WEEKLY = 'WEEKLY',
@@ -15,4 +7,10 @@ export enum RentalType {
 export enum TransactionType {
   RENTAL = 'RENTAL',
   PURCHASE = 'PURCHASE',
+}
+
+export enum BookStatus {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
 }

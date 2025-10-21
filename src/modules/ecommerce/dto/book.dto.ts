@@ -1,6 +1,7 @@
 import {
   IsArray,
   IsDateString,
+  IsEnum,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -18,11 +19,16 @@ import {
 } from '@nestjs/swagger';
 import { BaseListDto } from '@/base/service/base-list.dto';
 import { IsSkuUnique } from '@/modules/ecommerce/custom-validate/sku-product-unique.validate';
+import { BookStatus } from '@/modules/ecommerce/enums/product.enum';
 
 export class BookDto {
   @IsString()
   @IsSkuUnique()
   sku: string;
+
+  @IsString()
+  @IsEnum(BookStatus)
+  status: BookStatus;
 
   @IsString()
   title: string;
@@ -168,7 +174,7 @@ export class BookListDto extends BaseListDto {
 
   @ApiPropertyOptional({
     description:
-      "Cho phép lọc theo Bộ lọc EQ/IN các trường lọc 'publisher', 'publishedAt', 'language'. Ví dụ: {\"isActive\": true} hoặc query: filter[isActive]=true",
+      "Cho phép lọc theo Bộ lọc EQ/IN các trường lọc 'publisher', 'publishedAt', 'language', 'status'. Ví dụ: {\"isActive\": true} hoặc query: filter[isActive]=true",
 
     example: { language: 'vi' },
   })
@@ -182,7 +188,7 @@ export class BookListDto extends BaseListDto {
     return ['title', 'description'];
   }
   allowFilter() {
-    return ['publisher', 'publishedAt', 'language'];
+    return ['publisher', 'publishedAt', 'language', 'status'];
   }
   alias() {
     return 'book';

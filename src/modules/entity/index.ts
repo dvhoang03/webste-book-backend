@@ -12,5 +12,5 @@ export * from './order.entity';
 export * from './order-item.entity';
 export * from './payment.entity';
 export * from './review.entity';
-export * from './rental.entity';
+// export * from './rental.entity';
 export * from './rental-item.entity';

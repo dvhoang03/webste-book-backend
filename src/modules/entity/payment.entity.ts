@@ -7,24 +7,13 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { User } from './user.entity';
-
-export enum PaymentTargetType {
-  ORDER = 'ORDER',
-  RENTAL = 'RENTAL',
-}
+import { PaymentStatus } from '@/modules/ecommerce/enums/order.enum';
 
 export enum PaymentMethod {
   COD = 'COD',
   BANK_TRANSFER = 'BANK_TRANSFER',
   CREDIT_CARD = 'CREDIT_CARD',
   EWALLET = 'EWALLET',
-}
-
-export enum PaymentStatus {
-  PENDING = 'PENDING',
-  SUCCESS = 'SUCCESS',
-  FAILED = 'FAILED',
-  REFUNDED = 'REFUNDED',
 }
 
 @Entity({ name: 'payments' })
@@ -39,13 +28,10 @@ export class Payment {
   @ManyToOne(() => User, (u) => u.payments, { onDelete: 'SET NULL' })
   user: User;
 
-  @Column({ type: 'text' })
-  targetType: PaymentTargetType;
-
   @Column({ type: 'uuid' })
-  targetId: string; // id của Order hoặc Rental
+  orderId: string; // id của Order hoặc Rental
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', default: PaymentMethod.BANK_TRANSFER })
   method: PaymentMethod;
 
   @Column({ type: 'int' })

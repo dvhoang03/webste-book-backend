@@ -4,7 +4,10 @@ import {
   PartialType,
 } from '@nestjs/swagger';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
-import { RentalType, TransactionType } from '@/modules/enums/product.enum';
+import {
+  RentalType,
+  TransactionType,
+} from '@/modules/ecommerce/enums/product.enum';
 import { BaseListDto } from '@/base/service/base-list.dto';
 
 export class CartDto {

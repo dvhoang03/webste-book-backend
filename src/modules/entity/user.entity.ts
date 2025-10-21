@@ -11,7 +11,7 @@ import { Role } from '@/modules/user/user.enum';
 import { Address } from '@/modules/entity/address.entity';
 import { Cart } from '@/modules/entity/cart.entity';
 import { Order } from '@/modules/entity/order.entity';
-import { Rental } from '@/modules/entity/rental.entity';
+// import { Rental } from '@/modules/entity/rental.entity';
 import { Review } from '@/modules/entity/review.entity';
 import { Payment } from '@/modules/entity/payment.entity';
 import { config } from '@/config';
@@ -82,8 +82,8 @@ export class User {
   @OneToMany(() => Order, (o) => o.user)
   orders?: Order[];
 
-  @OneToMany(() => Rental, (r) => r.user)
-  rentals?: Rental[];
+  // @OneToMany(() => Rental, (r) => r.user)
+  // rentals?: Rental[];
 
   @OneToMany(() => Review, (r) => r.user)
   reviews?: Review[];

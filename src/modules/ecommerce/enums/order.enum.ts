@@ -1,0 +1,28 @@
+export enum OrderStatus {
+  PROCESSING = 'PROCESSING',
+  FAIL = 'FAIL',
+  SUCCESS = 'SUCCESS',
+}
+
+export enum PaymentStatus {
+  PAYING = 'PAYING',
+  PAYMENT_ERROR = 'PAYMENT_ERROR',
+  PAID = 'PAID',
+  REFUNDING = 'REFUNDING',
+  REFUND_ERROR = 'REFUND_ERROR',
+  REFUNDED = 'REFUNDED',
+}
+
+export enum ShippingStatus {
+  'WAIT_CONFIRM' = 'WAIT_CONFIRM',
+  SHIPPING = 'SHIPPING',
+  DELIVERED = 'DELIVERED',
+}
+
+export enum RentalStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+  RETURNED = 'RETURNED',
+  LATE = 'LATE',
+  CANCELLED = 'CANCELLED',
+}

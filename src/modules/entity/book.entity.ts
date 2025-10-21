@@ -15,6 +15,7 @@ import { Review } from '@/modules/entity/review.entity';
 import { Expose } from 'class-transformer';
 import { config } from '@/config';
 import { Publisher } from '@/modules/entity/publisher.entity';
+import { BookStatus } from '@/modules/ecommerce/enums/product.enum';
 
 @Entity({ name: 'books' })
 export class Book {
@@ -23,6 +24,9 @@ export class Book {
 
   @Column({ type: 'text', unique: true })
   sku: string;
+
+  @Column({ type: 'text', default: BookStatus.DRAFT })
+  status: BookStatus;
 
   @Column({ type: 'text' })
   title: string;

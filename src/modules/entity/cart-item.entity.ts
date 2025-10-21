@@ -8,7 +8,10 @@ import {
 } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Book } from './book.entity';
-import { RentalType, TransactionType } from '@/modules/enums/product.enum';
+import {
+  RentalType,
+  TransactionType,
+} from '@/modules/ecommerce/enums/product.enum';
 import { IsEnum, IsNotEmpty } from 'class-validator';
 
 @Entity({ name: 'cart_items' })

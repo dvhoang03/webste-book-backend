@@ -17,7 +17,7 @@ export class OrderItem {
   @Column('uuid')
   orderId: string;
 
-  @ManyToOne(() => Order, (o) => o.items, { onDelete: 'CASCADE' })
+  @ManyToOne(() => Order, (o) => o.purchaseItems, { onDelete: 'CASCADE' })
   order: Order;
 
   @Column('uuid')

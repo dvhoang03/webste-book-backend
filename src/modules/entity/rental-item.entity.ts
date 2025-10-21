@@ -5,20 +5,22 @@ import {
   ManyToOne,
   Index,
 } from 'typeorm';
-import { Rental } from './rental.entity';
+// import { Rental } from './rental.entity';
 import { Book } from './book.entity';
+import { Order } from '@/modules/entity/order.entity';
+import { RentalType } from '@/modules/ecommerce/enums/product.enum';
 
 @Entity({ name: 'rental_items' })
-@Index(['rentalId'])
+@Index(['orderId'])
 export class RentalItem {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('uuid')
-  rentalId: string;
+  orderId: string;
 
-  @ManyToOne(() => Rental, (r) => r.items, { onDelete: 'CASCADE' })
-  rental: Rental;
+  @ManyToOne(() => Order, (order) => order.rentalItems, { onDelete: 'CASCADE' })
+  order: Order;
 
   @Column('uuid')
   bookId: string;
@@ -26,15 +28,14 @@ export class RentalItem {
   @ManyToOne(() => Book, (b) => b.rentalItems, { onDelete: 'RESTRICT' })
   book: Book;
 
-  // nếu theo ERD có "bookCopyId"
-  @Column({ type: 'uuid', nullable: true })
-  bookCopyId?: string;
-
   @Column({ type: 'text', nullable: true })
   state?: string; // tình trạng sách khi thuê/trả
 
-  @Column({ type: 'int', nullable: true })
-  rentDays?: number;
+  @Column({ type: 'int' })
+  quantity: number;
+
+  @Column({ type: 'text', nullable: true })
+  rentalType: RentalType;
 
   @Column({ type: 'date', nullable: true })
   rentStart?: string;

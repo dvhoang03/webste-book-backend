@@ -13,12 +13,12 @@ import {
   Order,
   OrderItem,
   Payment,
-  Rental,
   RentalItem,
   Review,
   User,
 } from '@/modules/entity';
 import { Publisher } from '@/modules/entity/publisher.entity';
+import { Shipping } from '@/modules/entity/shipping.entity';
 @Module({
   imports: [
     ConfigModule,
@@ -45,10 +45,11 @@ import { Publisher } from '@/modules/entity/publisher.entity';
           Order,
           OrderItem,
           Payment,
-          Rental,
+          // Rental,
           RentalItem,
           Review,
           Publisher,
+          Shipping,
         ],
         synchronize: true,
       }),
