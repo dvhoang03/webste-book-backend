@@ -2,14 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { BaseService } from '@/base/service/base-service.service';
 import { Book } from '@/modules/entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
+import { BaseListDto } from '@/base/service/base-list.dto';
+import { AdminBookService } from '@/modules/ecommerce/service/admin-book.service';
 
 @Injectable()
-export class UserBookService extends BaseService<Book> {
-  constructor(
-    @InjectRepository(Book)
-    private readonly bookRepository: Repository<Book>,
-  ) {
-    super(bookRepository);
-  }
-}
+export class UserBookService extends AdminBookService {}

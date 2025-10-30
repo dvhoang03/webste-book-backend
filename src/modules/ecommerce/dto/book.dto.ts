@@ -45,6 +45,10 @@ export class BookDto {
   @IsString()
   language?: string;
 
+  @IsNotEmpty()
+  @IsInt()
+  stockQty: number;
+
   @IsOptional()
   @IsString()
   isbn?: string;
@@ -143,9 +147,17 @@ export class BookDto {
 // ---------------------
 // UPDATE DTO
 // ---------------------
-export class CreateBookDto extends BookDto {}
+export class CreateBookDto extends BookDto {
+  @IsArray()
+  @IsUUID(undefined, { each: true })
+  categoryIds: string[];
 
-export class UpdateBookDto extends PartialType(BookDto) {}
+  @IsArray()
+  @IsUUID(undefined, { each: true })
+  authorIds: string[];
+}
+
+export class UpdateBookDto extends PartialType(CreateBookDto) {}
 
 export class BookListDto extends BaseListDto {
   // Chỉ override metadata Swagger, KHÔNG thay đổi logic/transform từ BaseListDto
@@ -174,9 +186,9 @@ export class BookListDto extends BaseListDto {
 
   @ApiPropertyOptional({
     description:
-      "Cho phép lọc theo Bộ lọc EQ/IN các trường lọc 'publisher', 'publishedAt', 'language', 'status'. Ví dụ: {\"isActive\": true} hoặc query: filter[isActive]=true",
+      "Cho phép lọc theo ['publisher', 'publishedAt', 'language', 'status', 'bookAuthor.authorId': [],'bookCategory.categoryId': []  ]. Ví dụ: {\"isActive\": true} hoặc query: filter[isActive]=true",
 
-    example: { language: 'vi' },
+    example: { 'bookCategory.categoryId': 'vi' },
   })
   declare filter?: Record<string, any>;
 
@@ -188,7 +200,14 @@ export class BookListDto extends BaseListDto {
     return ['title', 'description'];
   }
   allowFilter() {
-    return ['publisher', 'publishedAt', 'language', 'status'];
+    const bookCols = ['status', 'publisherId', 'language', 'stockQty'];
+
+    // ✅ Các cột từ bảng quan hệ (dùng alias đã định nghĩa ở Bước 1)
+    const relationCols = [
+      'bookAuthor.authorId', // Lọc theo ID tác giả
+      'bookCategory.categoryId', // Lọc theo ID danh mục
+    ];
+    return [...bookCols, ...relationCols];
   }
   alias() {
     return 'book';

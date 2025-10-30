@@ -6,8 +6,15 @@ import {
   Address,
   Author,
   Book,
+  BookAuthor,
+  BookCategory,
   Cart,
   CartItem,
+  Category,
+  Order,
+  OrderItem,
+  Payment,
+  RentalItem,
   Review,
   User,
 } from '@/modules/entity';
@@ -29,6 +36,26 @@ import { Publisher } from '@/modules/entity/publisher.entity';
 import { IsUniqueSkuValidate } from '@/modules/ecommerce/custom-validate/sku-product-unique.validate';
 import { UserCartController } from '@/modules/ecommerce/controller/user-cart.controller';
 import { UserCartService } from '@/modules/ecommerce/service/user-cart.service';
+import { OrderItemDto } from '@/modules/ecommerce/dto/order-item.dto';
+import { UserCreateOrderService } from '@/modules/ecommerce/service/user-create-order.service';
+import { UserCreateOrderController } from '@/modules/ecommerce/controller/user-create-order.controller';
+import { VnpayModule } from '@/provider/vnpay/vnpay.module';
+import { HttpModule } from '@nestjs/axios';
+import { config } from '@/config';
+import { CheckTransactionSchedule } from '@/modules/ecommerce/schedule/check-transaction.schedule';
+import { UserOrderController } from '@/modules/ecommerce/controller/user-order.controller';
+import { UserOrderService } from '@/modules/ecommerce/service/user-order.service';
+import { AdminCategoryController } from '@/modules/ecommerce/controller/admin-category.controller';
+import { AdminCategoryService } from '@/modules/ecommerce/service/admin-category.service';
+import { AdminShipmentController } from '@/modules/ecommerce/controller/admin-shipment.controller';
+import { AdminShippingService } from '@/modules/ecommerce/service/admin-shipping.service';
+import { Shipping } from '@/modules/entity/shipping.entity';
+import { RentalReturn } from '@/modules/entity/rental-return.entity';
+import { ReturnRequest } from '@/modules/entity/return-request.entity';
+import { ReturnItem } from '@/modules/entity/return-item.entity';
+import { AdminReturnRequestController } from '@/modules/ecommerce/controller/admin-return-request.controller';
+import { UserReturnRequestController } from '@/modules/ecommerce/controller/user-return-request.controller';
+import { UserReturnRequestService } from '@/modules/ecommerce/service/user-return-request.service';
 
 @Module({
   imports: [
@@ -41,7 +68,20 @@ import { UserCartService } from '@/modules/ecommerce/service/user-cart.service';
       Publisher,
       Cart,
       CartItem,
+      Order,
+      OrderItem,
+      RentalItem,
+      Payment,
+      BookCategory,
+      BookAuthor,
+      Shipping,
+      Category,
+      RentalReturn,
+      ReturnRequest,
+      ReturnItem,
     ]),
+
+    VnpayModule,
   ],
   controllers: [
     UploadController,
@@ -50,11 +90,18 @@ import { UserCartService } from '@/modules/ecommerce/service/user-cart.service';
     AdminBookController,
     AdminAuthorController,
     AdminPublisherController,
+    AdminCategoryController,
+    AdminShipmentController,
+    AdminReturnRequestController,
 
+    UserOrderController,
     UserBookController,
     UserAddressController,
     UserReviewController,
     UserCartController,
+    UserCreateOrderController,
+    UserOrderController,
+    UserReturnRequestController,
   ],
   providers: [
     IsUniqueEmailValidate,
@@ -64,11 +111,19 @@ import { UserCartService } from '@/modules/ecommerce/service/user-cart.service';
     AdminBookService,
     AdminAuthorService,
     AdminPublisherService,
+    AdminCategoryService,
+    AdminShippingService,
 
     UserBookService,
     UserAddressService,
     UserReviewService,
     UserCartService,
+    UserCreateOrderService,
+    UserOrderService,
+    UserReturnRequestService,
+
+    //conjob
+    CheckTransactionSchedule,
   ],
   exports: [IsUniqueEmailValidate],
 })

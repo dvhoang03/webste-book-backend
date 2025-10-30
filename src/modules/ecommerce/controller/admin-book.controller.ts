@@ -38,7 +38,7 @@ export class AdminBookController {
   @ApiOperation({ summary: 'api tao book' })
   @Post()
   async create(@Body() dto: CreateBookDto) {
-    return this.userBook.create(dto);
+    return this.userBook.createBook(dto);
   }
 
   @ApiOperation({ summary: 'api update book' })

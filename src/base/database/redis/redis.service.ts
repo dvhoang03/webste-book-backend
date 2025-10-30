@@ -4,13 +4,13 @@ import {
   OnModuleDestroy,
   OnModuleInit,
 } from '@nestjs/common';
-import Redis from 'ioredis';
+import Redis, { RedisCommander } from 'ioredis';
 import _, { assign, isObject } from 'lodash';
 import { config } from '@/config';
 
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
-  private client: Redis;
+  private client: Redis & RedisCommander;
   private subscriber: Redis;
 
   onModuleInit() {
@@ -70,6 +70,10 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     return JSON.parse(value);
   }
 
+  async getValueByKey<T = string | null>(key: string): Promise<string | null> {
+    return await this.client.get(key);
+  }
+
   async delCache(key: string): Promise<void> {
     await this.client.del(key);
   }
@@ -88,11 +92,37 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
     });
   }
 
-  // ==========================
-  // 🔍 Helper: kiểm tra key
-  // ==========================
+  /**
+   * kieemr tra key co tontaij ko
+   * @param key cua value
+   */
   async hasKey(key: string): Promise<boolean> {
     const exists = await this.client.exists(key);
     return exists === 1;
+  }
+
+  /**
+   * setNx cho key and value
+   * @param key
+   * @param value
+   * @param mexp
+   */
+  async setNx(
+    key: string,
+    value: string | number,
+    mexp: number = -1,
+  ): Promise<number | null> {
+    const result = await this.client
+      .pipeline()
+      .setnx(key, value)
+      .expire(key, mexp / 1000)
+      .exec();
+
+    // Kiểm tra nếu result không null/undefined
+    return (result?.[0]?.[1] as number) ?? null;
+  }
+
+  async incrby(key: string, increment: string | number) {
+    return await this.client.incrby(key, increment);
   }
 }

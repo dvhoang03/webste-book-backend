@@ -55,6 +55,15 @@ export class ConfigService {
     REFRESH_SECRET: env.JWT_REFRESH_SECRET ?? 'duongviethoang',
     REFRESH_EXPIRES: (env.JWT_REFRESH_TTL ?? '7d') as StringValue,
   };
+
+  CACHE_LOCK_LONG_TIMEOUT = 30 * 60 * 1000;
+  VNPAY = {
+    VNP_TMN_CODE: env.VNP_TMNCODE || '',
+    VNP_HASH_SECRET: env.VNP_HASHSECRET ?? '',
+    VNP_URL: env.VNP_URL ?? '',
+    VNP_CHECK_TRANSACTION: env.VNP_CHECK_TRANSACTION ?? '',
+    VNP_RETURN_URL: env.VNP_RETURN_URL ?? '',
+  };
 }
 
 export const config = new ConfigService();

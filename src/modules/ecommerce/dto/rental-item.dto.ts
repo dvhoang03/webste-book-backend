@@ -1,4 +1,4 @@
-import { IsEnum, IsInt, IsString, IsUUID } from 'class-validator';
+import { IsEnum, IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
 import { RentalType } from '@/modules/ecommerce/enums/product.enum';
 
 export class RentalItemDto {
@@ -8,8 +8,9 @@ export class RentalItemDto {
   @IsUUID()
   bookId: string;
 
+  @IsOptional()
   @IsString()
-  unitPrice: string;
+  state?: string; // tình trạng sách khi thuê/trả
 
   @IsInt()
   quantity: number;
@@ -19,13 +20,10 @@ export class RentalItemDto {
   rentalType: RentalType;
 
   @IsString()
-  subtotal: string;
+  rentStart: Date;
 
   @IsString()
-  rentStart: string;
-
-  @IsString()
-  rentDue?: string;
+  rentDue: Date;
 }
 
 export class RentalItemListDto {}

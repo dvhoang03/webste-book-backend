@@ -18,7 +18,7 @@ export class Category {
 
   @Column({ type: 'uuid', nullable: true })
   @Index()
-  parentIds: string;
+  parentId: string;
 
   @ManyToOne(() => Category, (c) => c.children, { onDelete: 'SET NULL' })
   parent?: Category;

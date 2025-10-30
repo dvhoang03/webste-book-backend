@@ -53,6 +53,9 @@ export class Book {
   isbn?: string;
 
   @Column({ type: 'int', nullable: true })
+  stockQty: number;
+
+  @Column({ type: 'int', nullable: true })
   page?: number;
 
   @Column({ type: 'float', nullable: true })
@@ -104,7 +107,7 @@ export class Book {
   // Các cột giá (từ BookPricing)
   // ----------------------------
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  sellerPrice?: string;
+  sellerPrice: string;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
   rentPricePerDay?: string;

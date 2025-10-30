@@ -1,19 +1,27 @@
 import {
+  IsArray,
   IsDateString,
   IsEnum,
+  IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
 } from 'class-validator';
 import { ShippingStatus } from '@/modules/entity/shipping.entity';
 import { Column } from 'typeorm';
+import { GenerateAndSetPath } from '@/base/validators/validators.transformer';
+import { Expose } from 'class-transformer';
+import { ApiHideProperty, OmitType, PartialType } from '@nestjs/swagger';
 
 export class ShippingDto {
   @IsUUID()
-  addressId: string;
-
-  @IsUUID()
   orderId: string;
+
+  @ApiHideProperty()
+  @IsOptional()
+  @IsUUID()
+  addressId: string;
 
   @IsOptional()
   @IsString()
@@ -28,10 +36,27 @@ export class ShippingDto {
   status: ShippingStatus;
 
   @IsOptional()
-  @IsString()
-  shippingFee?: string;
+  @IsNumber()
+  shippingFee?: number;
 
   @IsOptional()
   @IsDateString()
-  estimatedDeliveryDate?: Date; // Ngày dự kiến giao
+  estimatedDeliveryDate?: string; // Ngày dự kiến giao
+
+  @IsNotEmpty()
+  @IsArray()
+  @GenerateAndSetPath('mediaPaths', { each: true })
+  @Expose()
+  mediaUrls: string[];
+
+  @IsOptional()
+  @ApiHideProperty()
+  @Expose()
+  mediaPaths?: string[];
 }
+
+export class CreateShippingDto extends ShippingDto {}
+
+export class UpdateShippingDto extends PartialType(
+  OmitType(ShippingDto, ['addressId']),
+) {}

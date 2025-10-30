@@ -19,6 +19,9 @@ import {
 } from '@/modules/entity';
 import { Publisher } from '@/modules/entity/publisher.entity';
 import { Shipping } from '@/modules/entity/shipping.entity';
+import { RentalReturn } from '@/modules/entity/rental-return.entity';
+import { ReturnRequest } from '@/modules/entity/return-request.entity';
+import { ReturnItem } from '@/modules/entity/return-item.entity';
 @Module({
   imports: [
     ConfigModule,
@@ -50,6 +53,9 @@ import { Shipping } from '@/modules/entity/shipping.entity';
           Review,
           Publisher,
           Shipping,
+          RentalReturn,
+          ReturnRequest,
+          ReturnItem,
         ],
         synchronize: true,
       }),

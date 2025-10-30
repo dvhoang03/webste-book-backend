@@ -6,8 +6,10 @@ import {
   Index,
   CreateDateColumn,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { User } from '@/modules/entity/user.entity';
+import { Shipping } from '@/modules/entity/shipping.entity';
 
 @Entity({ name: 'addresses' })
 @Index(['userId', 'isDefault'])
@@ -37,4 +39,7 @@ export class Address {
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
+
+  @OneToMany(() => Shipping, (shipping) => shipping.address)
+  shipping: Shipping;
 }

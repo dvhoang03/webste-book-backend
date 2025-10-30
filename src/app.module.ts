@@ -15,9 +15,13 @@ import { UserModule } from '@/modules/user/user.module';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@/modules/auth/jwt/jwt.guard';
+import { ScheduleModule } from '@nestjs/schedule';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(), // <-- Thêm dòng này
+
     ConfigModule,
     PostgresModule,
     LoggingModule,

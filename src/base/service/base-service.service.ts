@@ -1,5 +1,11 @@
 // src/common/services/base.service.ts
-import { Repository, ObjectLiteral, FindOptionsWhere } from 'typeorm';
+import {
+  Repository,
+  ObjectLiteral,
+  FindOptionsWhere,
+  FindOptionsRelations,
+  SelectQueryBuilder,
+} from 'typeorm';
 import { BaseListDto } from '@/base/service/base-list.dto';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { NotFoundException } from '@nestjs/common';
@@ -21,12 +27,15 @@ export class BaseService<T extends ObjectLiteral> {
   constructor(protected readonly repo: Repository<T>) {}
 
   // --- helpers (đặt trong class hoặc tách ra file riêng cũng được)
-  private col = (alias: string, f: string) => `"${alias}"."${f}"`;
+  private col = (alias: string, f: string) => `${alias}.${f}`;
 
   private colAny = (alias: string, f: string) => {
-    const parts = f.split('.');
-    if (parts.length === 2) return `"${parts[0]}"."${parts[1]}"`;
-    return this.col(alias, f); // fallback: field thuộc alias chính
+    // Nếu field đã chứa dấu chấm (ví dụ: 'shipping.id')
+    if (f.includes('.')) {
+      return f; // Cứ trả về 'shipping.id', TypeORM sẽ tự xử lý
+    }
+    // Nếu là field của bảng chính (ví dụ: 'createdAt')
+    return this.col(alias, f); // Sẽ gọi hàm col mới và trả về 'order.createdAt'
   };
 
   private safeParse = (v: any) => {
@@ -54,10 +63,14 @@ export class BaseService<T extends ObjectLiteral> {
    * Lấy một thực thể theo điều kiện.
    * Tự động throw NotFoundException nếu không tìm thấy.
    * @param where Điều kiện tìm kiếm (ví dụ: { id: 1 })
+   * @param relations (MỚI) Danh sách relations cần load
    * @returns Promise<T>
    */
-  async getOne(where: FindOptionsWhere<T>): Promise<T> {
-    const entity = await this.repo.findOneBy(where);
+  async getOne(
+    where: FindOptionsWhere<T>,
+    relations: FindOptionsRelations<T> | string[] = [],
+  ): Promise<T> {
+    const entity = await this.repo.findOne({ where, relations });
     if (!entity) {
       // Tên entity để thông báo lỗi rõ ràng hơn
       const entityName = this.repo.metadata.name;
@@ -111,9 +124,24 @@ export class BaseService<T extends ObjectLiteral> {
     await this.repo.remove(entity);
   }
 
+  /**
+   * hook ghi de de relation
+   * @param qb
+   * @param dto
+   * @protected
+   */
+  protected addRelations<D extends BaseListDto>(
+    qb: SelectQueryBuilder<T>,
+    dto: D,
+  ): SelectQueryBuilder<T> {
+    // Mặc định không làm gì cả
+    return qb;
+  }
+
   async list<D extends BaseListDto>(dto: D): Promise<PaginatedResult<T>> {
     const alias = dto.alias();
-    const qb = this.repo.createQueryBuilder(alias);
+    let qb = this.repo.createQueryBuilder(alias);
+    qb = this.addRelations(qb, dto);
 
     const columns = this.repo.metadata.columns.map((c) => c.propertyName);
     const allowSort = dto.allowSort() ?? columns;

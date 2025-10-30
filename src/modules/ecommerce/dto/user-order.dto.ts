@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import {
@@ -30,9 +31,10 @@ export class Items {
   @IsInt()
   quantity: number;
 
-  @IsOptional()
+  @ValidateIf((object, value) => object.type === TransactionType.RENTAL)
+  @IsNotEmpty()
   @IsEnum(RentalType)
-  rentalType?: RentalType;
+  rentalType: RentalType;
 }
 export class UserOrderDto {
   @ValidateNested({ each: true })
@@ -42,27 +44,10 @@ export class UserOrderDto {
   @IsUUID()
   @IsNotEmpty()
   addressId: string;
-}
-
-export class OrderDto {
-  @IsUUID()
-  userId: string;
-
-  @IsEnum(OrderStatus)
-  status: OrderStatus;
-
-  @IsString()
-  totalAmount: string;
-
-  @IsString()
-  totalRentalAmount: string;
-
-  @IsString()
-  depositAmount: string;
 
   @IsOptional()
-  @IsString()
-  discount: string;
+  @IsEnum(RentalType)
+  rentalType: RentalType;
 }
 
 // export class OrderListDto extends BaseListDto {

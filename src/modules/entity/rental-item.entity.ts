@@ -4,11 +4,13 @@ import {
   Column,
   ManyToOne,
   Index,
+  JoinColumn,
 } from 'typeorm';
 // import { Rental } from './rental.entity';
 import { Book } from './book.entity';
 import { Order } from '@/modules/entity/order.entity';
 import { RentalType } from '@/modules/ecommerce/enums/product.enum';
+import { RentalReturn } from '@/modules/entity/rental-return.entity';
 
 @Entity({ name: 'rental_items' })
 @Index(['orderId'])
@@ -34,12 +36,31 @@ export class RentalItem {
   @Column({ type: 'int' })
   quantity: number;
 
+  // --- XÓA CÁC TRƯỜNG BỊ TRÙNG LẶP ---
+  /*
   @Column({ type: 'text', nullable: true })
-  rentalType: RentalType;
+  rentalType: RentalType; // <-- XÓA
 
   @Column({ type: 'date', nullable: true })
-  rentStart?: string;
+  rentStart?: Date; // <-- XÓA
 
   @Column({ type: 'date', nullable: true })
-  rentDue?: string;
+  rentDue?: Date; // <-- XÓA
+  */
+  // --- (Kết thúc phần xóa) ---
+
+  // Liên kết tới phiếu trả hàng
+  @Column('uuid', { nullable: true })
+  rentalReturnId?: string;
+
+  // Một RentalItem chỉ thuộc 1 RentalReturn
+  @ManyToOne(() => RentalReturn, (rr) => rr.returnedItems, {
+    onDelete: 'SET NULL', // Nếu xóa phiếu trả, item này trở thành "chưa trả"
+    nullable: true,
+  })
+  @JoinColumn({ name: 'rentalReturnId' })
+  rentalReturn?: RentalReturn;
+
+  @Column({ type: 'date', nullable: true })
+  actualReturnDate?: Date; // Ngày thực tế trả (có thể set khi status là COMPLETED)
 }

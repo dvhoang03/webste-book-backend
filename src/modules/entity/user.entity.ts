@@ -11,11 +11,12 @@ import { Role } from '@/modules/user/user.enum';
 import { Address } from '@/modules/entity/address.entity';
 import { Cart } from '@/modules/entity/cart.entity';
 import { Order } from '@/modules/entity/order.entity';
-// import { Rental } from '@/modules/entity/rental.entity';
 import { Review } from '@/modules/entity/review.entity';
 import { Payment } from '@/modules/entity/payment.entity';
 import { config } from '@/config';
 import { Expose } from 'class-transformer';
+import { ReturnRequest } from '@/modules/entity/return-request.entity';
+import { RentalReturn } from '@/modules/entity/rental-return.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -90,4 +91,14 @@ export class User {
 
   @OneToMany(() => Payment, (p) => p.user)
   payments?: Payment[];
+
+  // --- CÁC TRƯỜNG MỚI ĐƯỢC THÊM (Quan hệ) ---
+
+  // ✅ Các phiếu hoàn tiền (hàng MUA) của user
+  @OneToMany(() => ReturnRequest, (rr) => rr.user)
+  returnRequests: ReturnRequest[];
+
+  // ✅ Các phiếu trả sách (hàng THUÊ) của user
+  @OneToMany(() => RentalReturn, (rr) => rr.user)
+  rentalReturns: RentalReturn[];
 }
