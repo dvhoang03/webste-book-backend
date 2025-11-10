@@ -1,5 +1,5 @@
 # Stage 1: Build stage - Dùng để cài đặt dependencies và build project
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 # Thiết lập thư mục làm việc trong container
 WORKDIR /usr/src/app
@@ -19,7 +19,7 @@ RUN npm run build
 
 
 # Stage 2: Production stage - Dùng để chạy ứng dụng
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Thiết lập thư mục làm việc
 WORKDIR /usr/src/app

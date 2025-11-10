@@ -44,7 +44,7 @@ async function bootstrap() {
       // },
     }),
   );
-
+  app.enableCors();
   initSwagger(app);
   await app.listen(process.env.PORT ?? 3000);
   logger.log('apidoc: ', config.DOMAIN + '/apidoc');

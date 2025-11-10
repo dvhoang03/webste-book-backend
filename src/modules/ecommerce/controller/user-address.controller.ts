@@ -49,7 +49,7 @@ export class UserAddressController {
   }
 
   @ApiOperation({ summary: 'api sua dia chi' })
-  @Patch()
+  @Patch(':id')
   async update(@Param() param: PostgresIdParam, @Body() dto: CreateAddressDto) {
     return await this.userAddressService.update(param.id, dto);
   }

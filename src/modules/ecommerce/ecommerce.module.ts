@@ -56,6 +56,7 @@ import { ReturnItem } from '@/modules/entity/return-item.entity';
 import { AdminReturnRequestController } from '@/modules/ecommerce/controller/admin-return-request.controller';
 import { UserReturnRequestController } from '@/modules/ecommerce/controller/user-return-request.controller';
 import { UserReturnRequestService } from '@/modules/ecommerce/service/user-return-request.service';
+import { UserCategoryController } from '@/modules/ecommerce/controller/user-category.controller';
 
 @Module({
   imports: [
@@ -102,6 +103,7 @@ import { UserReturnRequestService } from '@/modules/ecommerce/service/user-retur
     UserCreateOrderController,
     UserOrderController,
     UserReturnRequestController,
+    UserCategoryController,
   ],
   providers: [
     IsUniqueEmailValidate,

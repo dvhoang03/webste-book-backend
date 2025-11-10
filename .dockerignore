@@ -27,3 +27,8 @@ coverage
 # OS
 .DS_Store
 Thumbs.db
+
+# --- THÊM 2 DÒNG NÀY ---
+# Bỏ qua các thư mục dữ liệu do Docker tạo ra
+postgres_data
+minio_data
