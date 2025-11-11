@@ -43,7 +43,7 @@ export class AdminAuthorController {
   }
 
   @ApiOperation({ summary: 'api update author' })
-  @Patch()
+  @Patch(':id')
   async update(@Param() param: PostgresIdParam, @Body() dto: UpdateAuthorDto) {
     return await this.adminAuthorService.update(param.id, dto);
   }
