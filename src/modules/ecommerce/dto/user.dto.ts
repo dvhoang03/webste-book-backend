@@ -108,7 +108,7 @@ export class UserListDto extends BaseListDto {
     return ['email', 'fullName'];
   }
   allowFilter() {
-    return ['email', 'fullName', 'isActive', 'createdAt'];
+    return ['email', 'fullName', 'role', 'isActive', 'createdAt'];
   }
   alias() {
     return 'user';

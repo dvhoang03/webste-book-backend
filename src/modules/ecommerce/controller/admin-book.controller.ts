@@ -32,7 +32,13 @@ export class AdminBookController {
   @ApiOperation({ summary: 'api lay chi tiet  book' })
   @Get(':id')
   async getDetail(@Param() param: PostgresIdParam) {
-    return await this.userBook.getOne(param);
+    return await this.userBook.getOne(param, [
+      'publisher',
+      'bookAuthors',
+      'bookAuthors.author',
+      'bookCategories',
+      'bookCategories.category',
+    ]);
   }
 
   @ApiOperation({ summary: 'api tao book' })

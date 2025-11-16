@@ -20,6 +20,12 @@ export class UserBookController {
 
   @Get(':id')
   async getDetail(@Param() param: PostgresIdParam) {
-    return await this.userBook.getOne(param);
+    return await this.userBook.getOne(param, [
+      'publisher',
+      'bookAuthors',
+      'bookAuthors.author',
+      'bookCategories',
+      'bookCategories.category',
+    ]);
   }
 }
