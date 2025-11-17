@@ -34,6 +34,8 @@ RUN npm ci --only=production && npm cache clean --force
 
 # Sao chép thư mục dist đã được build từ stage "builder"
 COPY --from=builder /usr/src/app/dist ./dist
+# Copy các template email
+COPY --from=builder /usr/src/app/src/base/mail/templates ./src/base/mail/templates
 
 # Mở cổng 3000 (cổng mặc định của NestJS)
 EXPOSE 3000
