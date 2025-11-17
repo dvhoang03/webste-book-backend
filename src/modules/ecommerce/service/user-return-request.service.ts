@@ -36,7 +36,7 @@ export class UserReturnRequestService extends BaseService<ReturnRequest> {
 
         // Tính toán refundAmount (number)
         const refundAmountNumber =
-          item.quantity * Number(orderItem.book.sellerPrice);
+          item.quantity * orderItem.book.sellerPrice;
 
         return {
           orderItemId: item.orderItemId,

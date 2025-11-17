@@ -77,17 +77,11 @@ export class UserCreateOrderService extends BaseService<Order> {
   ): number {
     switch (type) {
       case RentalType.DAILY:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        return book.rentPricePerDay * quantity;
+        return (book.rentPricePerDay || 0) * quantity;
       case RentalType.MONTHLY:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        return book.rentPricePerMonth * quantity;
+        return (book.rentPricePerMonth || 0) * quantity;
       case RentalType.WEEKLY:
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        return book.rentPenaltyPerWeek * quantity;
+        return (book.rentPricePerWeek || 0) * quantity;
     }
   }
 
@@ -127,7 +121,7 @@ export class UserCreateOrderService extends BaseService<Order> {
         totalRentalAmount += amount;
         totalAmount += amount;
       } else {
-        totalAmount += item.quantity * Number(item.book.sellerPrice);
+        totalAmount += item.quantity * item.book.sellerPrice;
       }
     });
 
@@ -205,8 +199,8 @@ export class UserCreateOrderService extends BaseService<Order> {
             orderId: order.id,
             bookId: item.book.id,
             quantity: item.quantity,
-            subtotal: String(Number(item.book.sellerPrice) * item.quantity),
-            unitPrice: item.book.sellerPrice,
+            subtotal: String(item.book.sellerPrice * item.quantity),
+            unitPrice: String(item.book.sellerPrice),
           };
           await queryRunner.manager.save(this.orderItemRepo.create(orderItem));
         }

@@ -100,32 +100,32 @@ export class BookDto {
 
   // Giá bán và thuê
   @IsOptional()
-  @IsNumberString()
-  sellerPrice?: string;
+  @IsNumber()
+  sellerPrice?: number;
 
   @IsOptional()
-  @IsNumberString()
-  rentPricePerDay?: string;
+  @IsNumber()
+  rentPricePerDay?: number;
 
   @IsOptional()
-  @IsNumberString()
-  rentPenaltyPerDay?: string;
+  @IsNumber()
+  rentPenaltyPerDay?: number;
 
   @IsOptional()
-  @IsNumberString()
-  rentPricePerWeek?: string;
+  @IsNumber()
+  rentPricePerWeek?: number;
 
   @IsOptional()
-  @IsNumberString()
-  rentPenaltyPerWeek?: string;
+  @IsNumber()
+  rentPenaltyPerWeek?: number;
 
   @IsOptional()
-  @IsNumberString()
-  rentPricePerMonth?: string;
+  @IsNumber()
+  rentPricePerMonth?: number;
 
   @IsOptional()
-  @IsNumberString()
-  rentPenaltyPerMonth?: string;
+  @IsNumber()
+  rentPenaltyPerMonth?: number;
 
   // Quan hệ (chỉ chứa ID)
   // @IsOptional()

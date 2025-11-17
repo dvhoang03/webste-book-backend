@@ -107,25 +107,25 @@ export class Book {
   // Các cột giá (từ BookPricing)
   // ----------------------------
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  sellerPrice: string;
+  sellerPrice: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  rentPricePerDay?: string;
+  rentPricePerDay?: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  rentPenaltyPerDay?: string;
+  rentPenaltyPerDay?: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  rentPricePerWeek?: string;
+  rentPricePerWeek?: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  rentPenaltyPerWeek?: string;
+  rentPenaltyPerWeek?: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  rentPricePerMonth?: string;
+  rentPricePerMonth?: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
-  rentPenaltyPerMonth?: string;
+  rentPenaltyPerMonth?: number;
 
   // ----------------------------
   // Quan hệ
