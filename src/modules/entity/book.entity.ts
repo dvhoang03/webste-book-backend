@@ -127,6 +127,9 @@ export class Book {
   @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
   rentPenaltyPerMonth?: number;
 
+  @Column({ type: 'numeric', precision: 12, scale: 2, nullable: true })
+  rentDeposit: number;
+
   // ----------------------------
   // Quan hệ
   // ----------------------------

@@ -21,6 +21,10 @@
     "seed": "ts-node -r tsconfig-paths/register src/seeds/seed.ts"
   },
   "dependencies": {
+    "@langchain/community": "^1.0.4",
+    "@langchain/core": "^1.0.6",
+    "@langchain/google-genai": "^1.0.3",
+    "@langchain/openai": "^1.1.2",
     "@nestjs-modules/ioredis": "^2.0.2",
     "@nestjs-modules/mailer": "^2.0.2",
     "@nestjs/axios": "^4.0.1",
@@ -43,6 +47,7 @@
     "dateformat": "^5.0.3",
     "handlebars": "^4.7.8",
     "ioredis": "^5.8.1",
+    "langchain": "^1.0.6",
     "lodash": "^4.17.21",
     "log4js": "^6.9.1",
     "minio": "^8.0.6",

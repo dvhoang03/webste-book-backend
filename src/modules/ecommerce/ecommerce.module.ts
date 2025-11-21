@@ -57,6 +57,13 @@ import { AdminReturnRequestController } from '@/modules/ecommerce/controller/adm
 import { UserReturnRequestController } from '@/modules/ecommerce/controller/user-return-request.controller';
 import { UserReturnRequestService } from '@/modules/ecommerce/service/user-return-request.service';
 import { UserCategoryController } from '@/modules/ecommerce/controller/user-category.controller';
+import { AdminPolicyService } from '@/modules/ecommerce/service/admin-policy.service';
+import { AdminPolicyController } from '@/modules/ecommerce/controller/admin-policy.controller';
+import { Policy } from '@/modules/entity/policy.entity';
+import { Conversation } from '@/modules/entity/conversation.entity';
+import { ChatMessage } from '@/modules/entity/chat-message.entity';
+import { AdminOrderController } from '@/modules/ecommerce/controller/admin-order.controller';
+import { UserUserController } from '@/modules/ecommerce/controller/user-user.controller';
 
 @Module({
   imports: [
@@ -80,6 +87,9 @@ import { UserCategoryController } from '@/modules/ecommerce/controller/user-cate
       RentalReturn,
       ReturnRequest,
       ReturnItem,
+      Policy,
+      Conversation,
+      ChatMessage,
     ]),
 
     VnpayModule,
@@ -94,6 +104,8 @@ import { UserCategoryController } from '@/modules/ecommerce/controller/user-cate
     AdminCategoryController,
     AdminShipmentController,
     AdminReturnRequestController,
+    AdminPolicyController,
+    AdminOrderController,
 
     UserOrderController,
     UserBookController,
@@ -104,6 +116,7 @@ import { UserCategoryController } from '@/modules/ecommerce/controller/user-cate
     UserOrderController,
     UserReturnRequestController,
     UserCategoryController,
+    UserUserController,
   ],
   providers: [
     IsUniqueEmailValidate,
@@ -115,6 +128,7 @@ import { UserCategoryController } from '@/modules/ecommerce/controller/user-cate
     AdminPublisherService,
     AdminCategoryService,
     AdminShippingService,
+    AdminPolicyService,
 
     UserBookService,
     UserAddressService,

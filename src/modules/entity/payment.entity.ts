@@ -45,7 +45,7 @@ export class Payment {
   transactionStatus: string;
 
   @Column({ type: 'numeric', precision: 12, scale: 2 })
-  amount: string;
+  amount: number;
 
   @Column({ type: 'text', default: PaymentStatus.PAYING })
   status: PaymentStatus;

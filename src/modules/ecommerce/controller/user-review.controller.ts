@@ -33,7 +33,6 @@ export class UserReviewController {
     return await this.userReviewService.list(query);
   }
 
-  @UseGuards(JwtUserGuard)
   @ApiOperation({ summary: 'api lietj ke review cua user' })
   @Get('user')
   async listReviewOfUser(
@@ -50,9 +49,11 @@ export class UserReviewController {
     return await this.userReviewService.getOne(params);
   }
 
+  @UseGuards(JwtUserGuard)
   @ApiOperation({ summary: 'api tao review' })
   @Post()
-  async create(@Body() dto: CreateReviewDto) {
+  async create(@Body() dto: CreateReviewDto, @UserAuth() user: User) {
+    Object.assign(dto, { userId: user.id });
     return this.userReviewService.create(dto);
   }
 

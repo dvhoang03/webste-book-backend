@@ -6,7 +6,7 @@ import { User } from '@/modules/entity';
 
 @ApiTagAndBearer('Admin/ Order')
 @Controller('admin-order')
-export class UserOrderController {
+export class AdminOrderController {
   constructor(private readonly userOrder: UserOrderService) {}
 
   @Get()

@@ -45,16 +45,16 @@ export class Order {
   status: OrderStatus;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  totalAmount: string;
+  totalAmount: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  totalRentAmount: string;
+  totalRentAmount: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  depositAmount: string;
+  depositAmount: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  discount: string;
+  discount: number;
 
   // --- Quan hệ 1-N ---
   @OneToMany(() => OrderItem, (i) => i.order, { cascade: true })

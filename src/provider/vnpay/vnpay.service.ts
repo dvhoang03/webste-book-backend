@@ -60,7 +60,7 @@ export class VnPayService {
     const vnpExpireDate = expireDate.format('YYYYMMDDHHmmss');
 
     const orderId = payment.id; // <-- Rất quan trọng: Dùng Payment ID
-    const amount = parseFloat(payment.amount) * 100; // VNPAY yêu cầu nhân 100
+    const amount = payment.amount * 100; // VNPAY yêu cầu nhân 100
     const orderInfo = `Thanh toan don hang ${payment.order.id}`;
 
     let vnp_Params: Record<string, any> = {};
@@ -118,7 +118,7 @@ export class VnPayService {
     }
 
     // 2. Kiểm tra số tiền
-    if (parseFloat(payment.amount) !== vnpAmount) {
+    if (payment.amount !== vnpAmount) {
       return { RspCode: '04', Message: 'Invalid amount' };
     }
 

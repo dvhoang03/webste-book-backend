@@ -17,6 +17,7 @@ import { config } from '@/config';
 import { Expose } from 'class-transformer';
 import { ReturnRequest } from '@/modules/entity/return-request.entity';
 import { RentalReturn } from '@/modules/entity/rental-return.entity';
+import { Conversation } from '@/modules/entity/conversation.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -101,4 +102,7 @@ export class User {
   // ✅ Các phiếu trả sách (hàng THUÊ) của user
   @OneToMany(() => RentalReturn, (rr) => rr.user)
   rentalReturns: RentalReturn[];
+
+  @OneToMany(() => Conversation, (conversation) => conversation.user)
+  conversations: Conversation[];
 }

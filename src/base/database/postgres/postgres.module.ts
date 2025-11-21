@@ -22,6 +22,9 @@ import { Shipping } from '@/modules/entity/shipping.entity';
 import { RentalReturn } from '@/modules/entity/rental-return.entity';
 import { ReturnRequest } from '@/modules/entity/return-request.entity';
 import { ReturnItem } from '@/modules/entity/return-item.entity';
+import { Conversation } from '@/modules/entity/conversation.entity';
+import { ChatMessage } from '@/modules/entity/chat-message.entity';
+import { Policy } from '@/modules/entity/policy.entity';
 @Module({
   imports: [
     ConfigModule,
@@ -56,6 +59,9 @@ import { ReturnItem } from '@/modules/entity/return-item.entity';
           RentalReturn,
           ReturnRequest,
           ReturnItem,
+          Conversation,
+          ChatMessage,
+          Policy,
         ],
         synchronize: true,
       }),

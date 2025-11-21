@@ -70,18 +70,23 @@ export class UserCreateOrderService extends BaseService<Order> {
     }
   }
 
-  calculatorMoneyRental(
-    type: RentalType,
-    book: Book,
-    quantity: number,
-  ): number {
+  calculatorMoneyRental(type: RentalType, book: Book, quantity: number) {
     switch (type) {
       case RentalType.DAILY:
-        return (book.rentPricePerDay || 0) * quantity;
-      case RentalType.MONTHLY:
-        return (book.rentPricePerMonth || 0) * quantity;
+        return {
+          totalRental: (book.rentPricePerDay || 0) * quantity,
+          totalDeposit: (book.rentDeposit || 0) * quantity,
+        };
       case RentalType.WEEKLY:
-        return (book.rentPricePerWeek || 0) * quantity;
+        return {
+          totalRental: (book.rentPricePerWeek || 0) * quantity,
+          totalDeposit: (book.rentDeposit || 0) * quantity,
+        };
+      case RentalType.MONTHLY:
+        return {
+          totalRental: (book.rentPricePerMonth || 0) * quantity,
+          totalDeposit: (book.rentDeposit || 0) * quantity,
+        };
     }
   }
 
@@ -111,6 +116,7 @@ export class UserCreateOrderService extends BaseService<Order> {
     // Tinh tong tien
     let totalRentalAmount = 0;
     let totalAmount = 0;
+    let totalDeposit = 0;
     itemDtos.forEach((item) => {
       if (item.type === TransactionType.RENTAL) {
         const amount = this.calculatorMoneyRental(
@@ -118,8 +124,9 @@ export class UserCreateOrderService extends BaseService<Order> {
           item.book,
           item.quantity,
         );
-        totalRentalAmount += amount;
-        totalAmount += amount;
+        totalRentalAmount += amount.totalRental;
+        totalAmount += amount.totalDeposit + amount.totalRental;
+        totalDeposit += amount.totalDeposit;
       } else {
         totalAmount += item.quantity * item.book.sellerPrice;
       }
@@ -128,8 +135,9 @@ export class UserCreateOrderService extends BaseService<Order> {
     const createOrder: OrderDto = {
       userId: user.id,
       status: OrderStatus.PROCESSING,
-      totalAmount: String(totalAmount),
-      totalRentalAmount: String(totalRentalAmount),
+      totalAmount: totalAmount,
+      totalRentalAmount: totalRentalAmount,
+      depositAmount: totalDeposit,
       addressId: dto.addressId,
     };
 

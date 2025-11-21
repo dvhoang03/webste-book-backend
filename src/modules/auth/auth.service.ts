@@ -114,6 +114,7 @@ export class AuthService {
     const refreshTokenCache = await this.redisService.getParse(
       getCacheKeyRefreshToken(user.id),
     );
+    BadRequestException;
     const refreshTokenHashed = await bcrypt.hash(incoming, 10);
     if (refreshTokenCache !== refreshTokenHashed) {
       throw new UnauthorizedException('Refresh token not match or expired');

@@ -127,6 +127,10 @@ export class BookDto {
   @IsNumber()
   rentPenaltyPerMonth?: number;
 
+  @IsOptional()
+  @IsNumber()
+  rentDeposit?: number;
+
   // Quan hệ (chỉ chứa ID)
   // @IsOptional()
   // @IsArray()

@@ -17,6 +17,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from '@/modules/auth/jwt/jwt.guard';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
+import { ChatModule } from '@/modules/chat/chat.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { HttpModule } from '@nestjs/axios';
 
     EcommerceModule,
     UserModule,
+    ChatModule,
   ],
   controllers: [AppController],
   providers: [

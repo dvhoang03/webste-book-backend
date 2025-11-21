@@ -20,18 +20,18 @@ export class OrderDto {
   status: OrderStatus;
 
   @IsString()
-  totalAmount: string;
+  totalAmount: number;
 
   @IsString()
-  totalRentalAmount: string;
-
-  @IsOptional()
-  @IsString()
-  depositAmount?: string;
+  totalRentalAmount: number;
 
   @IsOptional()
   @IsString()
-  discount?: string;
+  depositAmount?: number;
+
+  @IsOptional()
+  @IsString()
+  discount?: number;
 }
 
 export class ListOrderDto extends BaseListDto {
