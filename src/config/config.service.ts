@@ -19,7 +19,7 @@ export class ConfigService {
     HOST: isDev() ? 'localhost' : (env.DB_HOST ?? 'localhost'),
     PORT: Number(env.DB_PORT || '5432'),
     USER: env.DB_USER || 'admin',
-    PASSWORD: env.PASSWORD || 'book123',
+    PASSWORD: env.DB_PASSWORD || 'book123',
     NAME: env.NAME || 'book',
   };
 

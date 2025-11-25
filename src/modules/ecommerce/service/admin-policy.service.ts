@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { BaseService } from '@/base/service/base-service.service';
 import { Policy } from '@/modules/entity/policy.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import { OpenAIEmbeddings } from '@langchain/openai';
 import { config } from '@/config';
 import {
@@ -12,6 +12,8 @@ import {
 import { GoogleGenerativeAIEmbeddings } from '@langchain/google-genai';
 import { LoggingService } from '@/base/logging/logging.service';
 import { TaskType } from '@google/generative-ai';
+import { BaseListDto } from '@/base/service/base-list.dto';
+import { Book } from '@/modules/entity';
 
 @Injectable()
 export class AdminPolicyService extends BaseService<Policy> {
