@@ -39,7 +39,7 @@ export class CartItem {
   quantity: number;
 
   // nếu là sản phẩm thuê: số ngày thuê
-  @Column({ type: 'int', nullable: true })
+  @Column({ enum: RentalType, nullable: true })
   rentalType?: RentalType;
 
   @CreateDateColumn({ type: 'timestamptz' })
