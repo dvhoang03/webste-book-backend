@@ -25,8 +25,8 @@ import { Policy } from '@/modules/entity/policy.entity';
 import { Conversation } from '@/modules/entity/conversation.entity';
 import { ChatMessage } from '@/modules/entity/chat-message.entity';
 import { Banner } from '@/modules/entity/banner.entity';
-import { UserService } from '@/modules/analysts/service/user.service';
-import { UserController } from '@/modules/analysts/controller/user.controller';
+import { AnalysisService } from '@/modules/analysts/service/analysis.service';
+import { AnalysisController } from '@/modules/analysts/controller/analysis.controller';
 
 @Module({
   imports: [
@@ -56,7 +56,7 @@ import { UserController } from '@/modules/analysts/controller/user.controller';
       Banner,
     ]),
   ],
-  controllers: [UserController],
-  providers: [UserService],
+  controllers: [AnalysisController],
+  providers: [AnalysisService],
 })
 export class AnalysisModule {}

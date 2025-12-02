@@ -1,4 +1,4 @@
-// src/modules/users/user.controller.ts
+// src/modules/users/analysis.controller.ts
 import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
 import { AdminUserService } from '@/modules/ecommerce/service/admin-user.service';
 import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
