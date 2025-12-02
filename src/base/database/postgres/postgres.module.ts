@@ -25,6 +25,7 @@ import { ReturnItem } from '@/modules/entity/return-item.entity';
 import { Conversation } from '@/modules/entity/conversation.entity';
 import { ChatMessage } from '@/modules/entity/chat-message.entity';
 import { Policy } from '@/modules/entity/policy.entity';
+import { Banner } from '@/modules/entity/banner.entity';
 @Module({
   imports: [
     ConfigModule,
@@ -62,6 +63,7 @@ import { Policy } from '@/modules/entity/policy.entity';
           Conversation,
           ChatMessage,
           Policy,
+          Banner,
         ],
         synchronize: true,
       }),

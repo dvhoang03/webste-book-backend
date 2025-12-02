@@ -1,4 +1,4 @@
-import { Body, Controller, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Patch, Put, UseGuards } from '@nestjs/common';
 import { ApiTagAndBearer } from '@/base/swagger/swagger.decorator';
 import { SkipAuth, UserAuth } from '@/modules/auth/auth.decorator';
 import { JwtUserGuard } from '@/modules/auth/jwt-user/jwt-user.guard';
@@ -17,7 +17,8 @@ export class UserUserController {
     @InjectRepository(User)
     private userRepo: Repository<User>,
   ) {}
-  @Put()
+
+  @Patch()
   async updateProfile(@UserAuth() user: User, @Body() dto: UpdateUserDto) {
     const { password } = dto;
     if (password) dto.password = await bcrypt.hash(password, 10);

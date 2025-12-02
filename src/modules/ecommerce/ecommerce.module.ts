@@ -64,6 +64,9 @@ import { Conversation } from '@/modules/entity/conversation.entity';
 import { ChatMessage } from '@/modules/entity/chat-message.entity';
 import { AdminOrderController } from '@/modules/ecommerce/controller/admin-order.controller';
 import { UserUserController } from '@/modules/ecommerce/controller/user-user.controller';
+import { Banner } from '@/modules/entity/banner.entity';
+import { AdminBannerController } from '@/modules/ecommerce/controller/admin-banner.controller';
+import { BannerService } from '@/modules/ecommerce/service/banner.service';
 
 @Module({
   imports: [
@@ -90,6 +93,7 @@ import { UserUserController } from '@/modules/ecommerce/controller/user-user.con
       Policy,
       Conversation,
       ChatMessage,
+      Banner,
     ]),
 
     VnpayModule,
@@ -106,6 +110,7 @@ import { UserUserController } from '@/modules/ecommerce/controller/user-user.con
     AdminReturnRequestController,
     AdminPolicyController,
     AdminOrderController,
+    AdminBannerController,
 
     UserOrderController,
     UserBookController,
@@ -129,6 +134,7 @@ import { UserUserController } from '@/modules/ecommerce/controller/user-user.con
     AdminCategoryService,
     AdminShippingService,
     AdminPolicyService,
+    BannerService,
 
     UserBookService,
     UserAddressService,

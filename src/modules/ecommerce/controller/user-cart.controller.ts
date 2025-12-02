@@ -47,7 +47,9 @@ export class UserCartController {
     @Param() param: PostgresIdParam,
     @Body() dto: UpdateCartItemDto,
   ) {
-    return await this.cartService.update(param.id, dto);
+    const cartItem = await this.cartService.update(param.id, dto);
+    const price = await this.cartService.calculatorPriceCartItem(cartItem);
+    return await this.cartService.update(param.id, { price });
   }
 
   @ApiOperation({ summary: 'api them vao gio hang' })

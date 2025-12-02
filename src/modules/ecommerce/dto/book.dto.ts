@@ -198,7 +198,7 @@ export class BookListDto extends BaseListDto {
 
   // --------- CẤU HÌNH/WLIST CHO SERVICE ĐỌC TỪ DTO ---------
   allowSort() {
-    return ['title', 'description', 'publisher', 'publishedAt'];
+    return ['title', 'description', 'publisher', 'publishedAt', 'sellerPrice'];
   }
   allowSearch() {
     return ['title', 'description'];

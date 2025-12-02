@@ -33,10 +33,13 @@ export class CartItem {
   book: Book;
 
   @Column({ enum: TransactionType })
-  type: string;
+  type: TransactionType;
 
   @Column({ type: 'int', default: 1 })
   quantity: number;
+
+  @Column({ type: 'numeric', nullable: true })
+  price: number;
 
   // nếu là sản phẩm thuê: số ngày thuê
   @Column({ enum: RentalType, nullable: true })

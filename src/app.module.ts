@@ -18,6 +18,7 @@ import { JwtAuthGuard } from '@/modules/auth/jwt/jwt.guard';
 import { ScheduleModule } from '@nestjs/schedule';
 import { HttpModule } from '@nestjs/axios';
 import { ChatModule } from '@/modules/chat/chat.module';
+import { AnalysisModule } from '@/modules/analysts/analysis.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ChatModule } from '@/modules/chat/chat.module';
     EcommerceModule,
     UserModule,
     ChatModule,
+    AnalysisModule,
   ],
   controllers: [AppController],
   providers: [

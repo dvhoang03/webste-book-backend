@@ -14,7 +14,7 @@ export class CartDto {
   @ApiHideProperty()
   @IsOptional()
   @IsUUID()
-  userId: string;
+  userId?: string;
 }
 
 export class CartItemDto extends CartDto {
