@@ -16,8 +16,11 @@ import {
   CreateBannerDto,
   UpdateBannerDto,
 } from '@/modules/ecommerce/dto/banner.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { SkipAuth } from '@/modules/auth/auth.decorator';
 
-@ApiTagAndBearer('Admin/ Banner')
+@ApiTags('Banner')
+@SkipAuth()
 @Controller('admin-banner')
 export class AdminBannerController {
   constructor(private readonly service: BannerService) {}

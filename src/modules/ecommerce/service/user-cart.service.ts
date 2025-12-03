@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { BaseService } from '@/base/service/base-service.service';
 import { Book, Cart, CartItem, User } from '@/modules/entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 import {
   CartItemDto,
   CartItemListDto,
@@ -10,6 +10,7 @@ import {
 } from '@/modules/ecommerce/dto/cart.dto';
 import { TransactionType } from '@/modules/ecommerce/enums/product.enum';
 import { UserCreateOrderService } from '@/modules/ecommerce/service/user-create-order.service';
+import { BaseListDto } from '@/base/service/base-list.dto';
 
 @Injectable()
 export class UserCartService extends BaseService<CartItem> {
@@ -23,6 +24,30 @@ export class UserCartService extends BaseService<CartItem> {
     private readonly userCreateOrder: UserCreateOrderService,
   ) {
     super(cartItemModel);
+  }
+
+  protected addRelations<D extends BaseListDto>(
+    qb: SelectQueryBuilder<CartItem>,
+    dto: D,
+  ): SelectQueryBuilder<CartItem> {
+    const alias = qb.alias; // 't'
+
+    // 1. Join và Select các bảng trung gian (BookAuthor, BookCategory)
+    //    VÀ các bảng chính (Author, Category, Publisher)
+    //    chỉ bằng một dòng cho mỗi quan hệ.
+    qb.leftJoinAndSelect(`${alias}.book`, 'book');
+
+    // qb.leftJoinAndSelect(`${alias}.bookAuthors`, 'bookAuthor');
+    // qb.leftJoinAndSelect(`${alias}.bookCategories`, 'bookCategory');
+    //
+    // // 2. Join lồng cấp (nested join)
+    // //    Từ 'bookAuthor' (đã join ở trên), join tiếp vào 'author'
+    // qb.leftJoinAndSelect(`bookAuthor.author`, 'author');
+    //
+    // //    Từ 'bookCategory' (đã join ở trên), join tiếp vào 'category'
+    // qb.leftJoinAndSelect(`bookCategory.category`, 'category');
+
+    return qb;
   }
 
   async calculatorPriceCartItem(cartItem: CartItemDto) {
