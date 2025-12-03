@@ -23,7 +23,7 @@ export class BannerDto {
 
   @IsNotEmpty()
   @IsString()
-  @GenerateAndSetPath('photoPath')
+  @GenerateAndSetPath('imagePath')
   @Expose()
   imageUrl: string;
 
