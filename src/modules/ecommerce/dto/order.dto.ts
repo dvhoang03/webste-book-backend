@@ -1,4 +1,10 @@
-import { IsEnum, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 import { OrderStatus } from '@/modules/ecommerce/enums/order.enum';
 import { BaseListDto } from '@/base/service/base-list.dto';
 import { ApiPropertyOptional } from '@nestjs/swagger';
@@ -19,14 +25,17 @@ export class OrderDto {
   @IsEnum(OrderStatus)
   status: OrderStatus;
 
-  @IsString()
+  @IsNumber()
   totalAmount: number;
 
-  @IsString()
-  totalRentalAmount: number;
+  @IsNumber()
+  totalRentAmount: number;
+
+  @IsNumber()
+  totalPurchaseAmount: number;
 
   @IsOptional()
-  @IsString()
+  @IsNumber()
   depositAmount?: number;
 
   @IsOptional()

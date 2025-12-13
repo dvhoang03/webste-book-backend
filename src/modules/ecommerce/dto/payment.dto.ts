@@ -1,15 +1,6 @@
-import {
-  IsDateString,
-  IsEnum,
-  IsIn,
-  IsInt,
-  IsOptional,
-  IsString,
-  IsUUID,
-} from 'class-validator';
-import { ShippingStatus } from '@/modules/entity/shipping.entity';
-import { Column } from 'typeorm';
+import { IsEnum, IsInt, IsOptional, IsString, IsUUID } from 'class-validator';
 import { PaymentStatus } from '@/modules/ecommerce/enums/order.enum';
+import { PaymentMethod } from '@/modules/ecommerce/enums/payment.enum';
 
 export class PaymentDto {
   @IsUUID()
@@ -18,10 +9,14 @@ export class PaymentDto {
   @IsUUID()
   orderId: string;
 
+  @IsOptional()
+  @IsEnum(PaymentMethod)
+  paymentMethod?: PaymentMethod;
+
   @IsInt()
   amount: string;
 
   @IsString()
   @IsEnum(PaymentStatus)
-  status: ShippingStatus;
+  status: PaymentStatus;
 }

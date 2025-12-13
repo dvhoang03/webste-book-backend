@@ -140,7 +140,7 @@ export class VnPayService {
 
     if (isSuccess) {
       payment.status = PaymentStatus.PAID;
-      order?.purchaseItems.map(async (orderItem) => {
+      order?.orderItems.map(async (orderItem) => {
         await this.bookRepository.decrement(
           { id: orderItem.bookId },
           'stockQty',
@@ -157,13 +157,13 @@ export class VnPayService {
       });
       // Cập nhật Order status
       if (payment.order) {
-        payment.order.status = OrderStatus.WAIT_FOR_SHIPPING; // Hoặc CONFIRMED
+        payment.order.status = OrderStatus.WAIT_FOR_DELIVERY; // Hoặc CONFIRMED
         await this.orderRepository.save(payment.order);
       }
     } else {
       payment.status = PaymentStatus.PAYMENT_ERROR;
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      order?.purchaseItems.map(async (orderItem) => {
+      order?.orderItems.map(async (orderItem) => {
         await this.unLockProduct(
           orderItem.book,
           orderItem.quantity,

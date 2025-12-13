@@ -1,56 +1,43 @@
-// src/modules/ecommerce/dto/create-return-item.dto.ts
-
 import {
   IsEnum,
+  IsIn,
   IsInt,
   IsNotEmpty,
   IsNumber,
-  IsOptional,
-  IsString,
   IsUUID,
   Min,
 } from 'class-validator';
 import { ReturnReason } from '@/modules/ecommerce/enums/return.enum';
-import { Column } from 'typeorm';
-import {
-  ApiHideProperty,
-  ApiPropertyOptional,
-  PartialType,
-} from '@nestjs/swagger';
+import { ApiPropertyOptional, PartialType, PickType } from '@nestjs/swagger';
 import { BaseListDto } from '@/base/service/base-list.dto';
 
-export class ReturnRequestDto {
-  @IsUUID('4')
+export class ReturnItemDto {
+  @IsUUID()
+  returnRequestId: string;
+
+  @IsUUID()
+  orderItemId: string;
+
+  @IsNumber()
+  @IsInt()
+  @Min(1)
   @IsNotEmpty()
-  orderId: string; // ID của OrderItem (món hàng trong đơn hàng gốc)
-
-  @IsOptional()
-  @IsString()
-  customerNote?: string;
-
-  @IsOptional()
-  @IsString()
-  adminNote?: string;
-
-  @IsOptional()
-  @ApiHideProperty()
-  totalRefundAmount?: number;
+  quantity: number; // Số lượng trả
 
   @IsEnum(ReturnReason)
-  @IsOptional()
-  reason?: ReturnReason; // Lý do trả cho món hàng này
+  reason: ReturnReason;
 }
 
-export class CreateReturnRequestDto extends ReturnRequestDto {}
+export class CreateReturnItemDto extends ReturnItemDto {}
 
-export class UpdateReturnRequestDto extends PartialType(
-  CreateReturnRequestDto,
+export class UpdateReturnItemDto extends PartialType(
+  PickType(ReturnItemDto, ['quantity', 'reason']),
 ) {}
 
 export class ReturnItemListDto extends BaseListDto {
   // Chỉ override metadata Swagger, KHÔNG thay đổi logic/transform từ BaseListDto
   @ApiPropertyOptional({
-    description: 'Sort theo [totalRefundAmount, createdAt]. Ví dụ: "name:asc"',
+    description: 'Sort theo [quantity, refundAmount]. Ví dụ: "name:asc"',
     example: '',
   })
   declare sort?: string;
@@ -71,7 +58,7 @@ export class ReturnItemListDto extends BaseListDto {
 
   @ApiPropertyOptional({
     description:
-      "Trường lọc ['orderId', 'userId', 'status']. Ví dụ: {\"isActive\": true} hoặc query: filter[isActive]=true",
+      'Trường lọc [\'reason\']. Ví dụ: {"isActive": true} hoặc query: filter[isActive]=true',
 
     example: {},
   })
@@ -79,13 +66,13 @@ export class ReturnItemListDto extends BaseListDto {
 
   // --------- CẤU HÌNH/WLIST CHO SERVICE ĐỌC TỪ DTO ---------
   allowSort() {
-    return ['totalRefundAmount', 'createdAt'];
+    return ['refundAmount', 'quantity'];
   }
   allowSearch() {
     return [];
   }
   allowFilter() {
-    return ['orderId', 'userId', 'status'];
+    return ['reason'];
   }
   alias() {
     return 'returnItem';

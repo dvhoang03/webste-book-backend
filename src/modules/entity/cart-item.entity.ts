@@ -41,6 +41,9 @@ export class CartItem {
   @Column({ type: 'numeric', nullable: true })
   price: number;
 
+  @Column({ type: 'boolean', default: false })
+  isSelected: boolean;
+
   // nếu là sản phẩm thuê: số ngày thuê
   @Column({ enum: RentalType, nullable: true })
   rentalType?: RentalType;

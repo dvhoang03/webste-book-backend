@@ -53,14 +53,6 @@ export class RentalItem {
   @Column('uuid', { nullable: true })
   rentalReturnId?: string;
 
-  // Một RentalItem chỉ thuộc 1 RentalReturn
-  @ManyToOne(() => RentalReturn, (rr) => rr.returnedItems, {
-    onDelete: 'SET NULL', // Nếu xóa phiếu trả, item này trở thành "chưa trả"
-    nullable: true,
-  })
-  @JoinColumn({ name: 'rentalReturnId' })
-  rentalReturn?: RentalReturn;
-
   @Column({ type: 'date', nullable: true })
   actualReturnDate?: Date; // Ngày thực tế trả (có thể set khi status là COMPLETED)
 }

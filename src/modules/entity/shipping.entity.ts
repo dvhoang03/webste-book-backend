@@ -14,14 +14,8 @@ import { Order } from './order.entity';
 import { Expose } from 'class-transformer';
 import { config } from '@/config';
 import { Address } from '@/modules/entity/address.entity';
-
-// Bạn có thể tạo một enum riêng cho trạng thái vận chuyển
-export enum ShippingStatus {
-  PENDING = 'PENDING', // Chờ xử lý
-  IN_TRANSIT = 'IN_TRANSIT', // Đang vận chuyển
-  DELIVERED = 'DELIVERED', // Đã giao hàng
-  FAILED = 'FAILED', // Giao hàng thất bại
-}
+import { ShippingStatus } from '@/modules/ecommerce/enums/order.enum';
+import { ShippingMethod } from '@/modules/ecommerce/enums/shipping.enum';
 
 @Entity({ name: 'shippings' })
 export class Shipping {
@@ -38,6 +32,9 @@ export class Shipping {
   @OneToOne(() => Order, (order) => order.shipping)
   order: Order;
 
+  @Column({ enum: ShippingMethod })
+  shippingMethod: ShippingMethod;
+
   @Column({ type: 'text', nullable: true })
   trackingNumber?: string; // Mã vận đơn
 
@@ -47,7 +44,7 @@ export class Shipping {
   @Column({
     type: 'text',
     enum: ShippingStatus,
-    default: ShippingStatus.PENDING,
+    default: ShippingStatus.SHIPPING,
   })
   status: ShippingStatus;
 
@@ -66,6 +63,9 @@ export class Shipping {
 
   @Column({ type: 'timestamptz', nullable: true })
   estimatedDeliveryDate?: Date; // Ngày dự kiến giao
+
+  @Column({ type: 'timestamptz', nullable: true })
+  deliveredDate?: Date; // Ngày dự kiến giao
 
   @Column({ type: 'simple-array', nullable: true })
   mediaPaths?: string[];

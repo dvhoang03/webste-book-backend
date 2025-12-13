@@ -101,7 +101,7 @@ export class UserRentalReturnService {
         status: RentalReturnStatus.PENDING, // Trạng thái mặc định
         customerNote: dto.customerNote,
         trackingNumber: dto.trackingNumber,
-        refundAmount: String(totalRefundAmount), // Lưu tổng tiền cọc
+        refundAmount: totalRefundAmount, // Lưu tổng tiền cọc
       });
 
       const savedRentalReturn = await rentalReturnRepo.save(newRentalReturn);
@@ -115,7 +115,6 @@ export class UserRentalReturnService {
 
       // Trả về phiếu trả vừa tạo (chưa bao gồm quan hệ 'returnedItems')
       // Gán 'returnedItems' thủ công để controller có thể trả về ngay lập
-      savedRentalReturn.returnedItems = itemsToReturn;
       return savedRentalReturn;
     });
   }

@@ -7,6 +7,7 @@ export enum ReturnStatus {
   RECEIVED = 'RECEIVED', // Đã nhận được hàng trả
   PROCESSING = 'PROCESSING', // Đang xử lý (kiểm tra hàng,...)
   COMPLETED = 'COMPLETED', // Hoàn tất (đã hoàn tiền/đổi hàng)
+  CANCEL = 'CANCEL',
 }
 
 export enum ReturnReason {

@@ -11,13 +11,7 @@ import {
 import { User } from './user.entity';
 import { PaymentStatus } from '@/modules/ecommerce/enums/order.enum';
 import { Order } from '@/modules/entity/order.entity';
-
-export enum PaymentMethod {
-  COD = 'COD',
-  BANK_TRANSFER = 'BANK_TRANSFER',
-  CREDIT_CARD = 'CREDIT_CARD',
-  EWALLET = 'EWALLET',
-}
+import { PaymentMethod } from '@/modules/ecommerce/enums/payment.enum';
 
 @Entity({ name: 'payments' })
 @Index(['userId'])
@@ -34,6 +28,9 @@ export class Payment {
   // Quan hệ 1-1 ngược lại, không lưu khóa ngoại
   @OneToOne(() => Order, (order) => order.payment)
   order: Order;
+
+  @Column({ enum: PaymentMethod, default: PaymentMethod.VN_PAY })
+  paymentMethod: PaymentMethod;
 
   @Column({ nullable: true })
   transactionNo: string;

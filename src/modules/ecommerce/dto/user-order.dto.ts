@@ -17,6 +17,7 @@ import {
 import { Type } from 'class-transformer';
 import { OrderStatus } from '@/modules/ecommerce/enums/order.enum';
 import { BaseListDto } from '@/base/service/base-list.dto';
+import { PickType } from '@nestjs/swagger';
 
 export class Items {
   @IsNotEmpty()
@@ -49,6 +50,8 @@ export class UserOrderDto {
   @IsEnum(RentalType)
   rentalType: RentalType;
 }
+
+export class UserCartOrderDto extends PickType(UserOrderDto, ['addressId']) {}
 
 // export class OrderListDto extends BaseListDto {
 //

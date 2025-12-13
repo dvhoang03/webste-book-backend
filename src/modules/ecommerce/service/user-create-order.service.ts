@@ -115,6 +115,7 @@ export class UserCreateOrderService extends BaseService<Order> {
 
     // Tinh tong tien
     let totalRentalAmount = 0;
+    let totalPurchaseAmount = 0;
     let totalAmount = 0;
     let totalDeposit = 0;
     itemDtos.forEach((item) => {
@@ -125,18 +126,21 @@ export class UserCreateOrderService extends BaseService<Order> {
           item.quantity,
         );
         totalRentalAmount += amount.totalRental;
-        totalAmount += amount.totalDeposit + amount.totalRental;
+        // totalAmount += amount.totalDeposit + amount.totalRental;
         totalDeposit += amount.totalDeposit;
       } else {
-        totalAmount += item.quantity * item.book.sellerPrice;
+        totalPurchaseAmount += item.quantity * item.book.sellerPrice;
       }
     });
+
+    totalAmount = totalPurchaseAmount + totalRentalAmount + totalDeposit;
 
     const createOrder: OrderDto = {
       userId: user.id,
       status: OrderStatus.PROCESSING,
       totalAmount: totalAmount,
-      totalRentalAmount: totalRentalAmount,
+      totalRentAmount: totalRentalAmount,
+      totalPurchaseAmount: totalPurchaseAmount,
       depositAmount: totalDeposit,
       addressId: dto.addressId,
     };
@@ -159,7 +163,6 @@ export class UserCreateOrderService extends BaseService<Order> {
         status: PaymentStatus.PAYING,
       });
       const payment = await queryRunner.manager.save(newPayment);
-
       // Tạo order
       const order = await queryRunner.manager.save(
         this.orderRepository.create({
@@ -179,13 +182,11 @@ export class UserCreateOrderService extends BaseService<Order> {
       // Tạo orderItem / rentalItem và LOCK KHO (Redis)
       for (let i = 0; i < itemDtos.length; i++) {
         const item = itemDtos[i];
-
         // 5. Khóa kho (Redis)
         // Phải nằm trong 'try' để nếu nó lỗi, CSDL sẽ rollback
         await this.lockBook(order, item.book, item.quantity);
         // Thêm vào mảng để rollback thủ công nếu cần
         lockedBooks.push({ book: item.book, quantity: item.quantity });
-
         // Tạo item tương ứng
         if (item.type === TransactionType.RENTAL) {
           const rentalItem: RentalItemDto = {
@@ -212,6 +213,13 @@ export class UserCreateOrderService extends BaseService<Order> {
           };
           await queryRunner.manager.save(this.orderItemRepo.create(orderItem));
         }
+        await queryRunner.manager.update(
+          Book,
+          { id: item.book.id },
+          {
+            stockQty: item.book.stockQty - item.quantity,
+          },
+        );
       }
 
       // 6. Mọi thứ OK -> Commit CSDL
@@ -243,6 +251,12 @@ export class UserCreateOrderService extends BaseService<Order> {
     }
   }
 
+  /**
+   * lock product khi mua
+   * @param order
+   * @param book
+   * @param quantity
+   */
   async lockBook(order: Order, book: Book, quantity: number) {
     const stockKey = getStockKey(book.id);
     const cacheQty = await this.cache.getValueByKey(stockKey);

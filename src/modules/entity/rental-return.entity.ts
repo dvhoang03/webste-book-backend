@@ -11,12 +11,14 @@ import {
   UpdateDateColumn,
   Index,
   JoinColumn,
+  OneToOne,
 } from 'typeorm';
 import { User } from './user.entity';
 import { Order } from './order.entity';
 import { RentalItem } from './rental-item.entity';
 import { RentalReturnStatus } from '@/modules/ecommerce/enums/rental.enum';
 import { Address } from '@/modules/entity/address.entity';
+import { ShippingMethod } from '@/modules/ecommerce/enums/shipping.enum';
 
 @Entity({ name: 'rental_returns' })
 @Index(['orderId'])
@@ -29,7 +31,7 @@ export class RentalReturn {
   orderId: string;
 
   // ✅ Một Order có thể có nhiều lần trả sách thuê (để xử lý ngoại lệ)
-  @ManyToOne(() => Order, (order) => order.rentalReturns, {
+  @OneToOne(() => Order, (order) => order.rentalReturn, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'orderId' })
@@ -43,10 +45,6 @@ export class RentalReturn {
   })
   @JoinColumn({ name: 'userId' })
   user: User;
-
-  // Các sách thuê được trả trong lần này
-  @OneToMany(() => RentalItem, (item) => item.rentalReturn)
-  returnedItems: RentalItem[];
 
   @Column({
     type: 'enum',
@@ -62,6 +60,9 @@ export class RentalReturn {
   @JoinColumn({ name: 'addressId' })
   address: Address;
 
+  @Column({ enum: ShippingMethod })
+  shippingMethod: ShippingMethod;
+
   @Column({ type: 'text', nullable: true })
   trackingNumber?: string; // Mã vận đơn (nếu khách gửi bưu điện)
 
@@ -75,7 +76,7 @@ export class RentalReturn {
   receivedAt?: Date; // Ngày kho nhận được sách
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  refundAmount: string;
+  refundAmount: number;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;

@@ -9,7 +9,7 @@ import { ApiOperation } from '@nestjs/swagger';
 import { UpdateReturnRequestDto } from '@/modules/ecommerce/dto/return-request.dto';
 import { PostgresIdParam } from '@/base/dto/base.dto';
 
-@ApiTagAndBearer('Amin/ Return ')
+@ApiTagAndBearer('Amin/ Return Request')
 @Controller('return-request')
 export class AdminReturnRequestController {
   constructor(private readonly userReturnRequest: UserReturnRequestService) {}

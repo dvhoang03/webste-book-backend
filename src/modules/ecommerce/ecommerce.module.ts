@@ -67,6 +67,9 @@ import { UserUserController } from '@/modules/ecommerce/controller/user-user.con
 import { Banner } from '@/modules/entity/banner.entity';
 import { AdminBannerController } from '@/modules/ecommerce/controller/admin-banner.controller';
 import { BannerService } from '@/modules/ecommerce/service/banner.service';
+import { UserCreateOrderCartService } from '@/modules/ecommerce/service/user-create-order-cart.service';
+import { UserRentalReturnController } from '@/modules/ecommerce/controller/user-rental-return.controller';
+import { UserRentalReturnService } from '@/modules/ecommerce/service/user-rental-return.service';
 
 @Module({
   imports: [
@@ -122,6 +125,7 @@ import { BannerService } from '@/modules/ecommerce/service/banner.service';
     UserReturnRequestController,
     UserCategoryController,
     UserUserController,
+    UserRentalReturnController,
   ],
   providers: [
     IsUniqueEmailValidate,
@@ -143,6 +147,8 @@ import { BannerService } from '@/modules/ecommerce/service/banner.service';
     UserCreateOrderService,
     UserOrderService,
     UserReturnRequestService,
+    UserCreateOrderCartService,
+    UserRentalReturnService,
 
     //conjob
     CheckTransactionSchedule,

@@ -20,6 +20,7 @@ import {
   ReturnReason,
   ReturnStatus,
 } from '@/modules/ecommerce/enums/return.enum';
+import { ShippingMethod } from '@/modules/ecommerce/enums/shipping.enum';
 
 @Entity({ name: 'return_requests' })
 @Index(['orderId'], { unique: true }) // ✅ Đảm bảo 1 Order chỉ có 1 Request
@@ -51,6 +52,9 @@ export class ReturnRequest {
   @OneToMany(() => ReturnItem, (item) => item.returnRequest, { cascade: true })
   items: ReturnItem[];
 
+  @Column({ enum: ShippingMethod })
+  shippingMethod: ShippingMethod;
+
   @Column({
     type: 'enum',
     enum: ReturnStatus,
@@ -72,7 +76,7 @@ export class ReturnRequest {
   adminNote?: string;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  totalRefundAmount: string; // Tổng tiền hoàn lại cho các món hàng MUA
+  totalRefundAmount: number; // Tổng tiền hoàn lại cho các món hàng MUA
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;

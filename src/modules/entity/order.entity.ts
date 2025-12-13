@@ -51,6 +51,9 @@ export class Order {
   totalRentAmount: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
+  totalPurchaseAmount: number;
+
+  @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
   depositAmount: number;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
@@ -58,7 +61,7 @@ export class Order {
 
   // --- Quan hệ 1-N ---
   @OneToMany(() => OrderItem, (i) => i.order, { cascade: true })
-  purchaseItems: OrderItem[];
+  orderItems: OrderItem[];
 
   @OneToMany(() => RentalItem, (ri) => ri.order, { cascade: true })
   rentalItems: RentalItem[];
@@ -107,6 +110,6 @@ export class Order {
   returnRequest: ReturnRequest;
 
   // ✅ Dùng cho TRẢ SÁCH (Hàng THUÊ)
-  @OneToMany(() => RentalReturn, (rr) => rr.order)
-  rentalReturns: RentalReturn[];
+  @OneToOne(() => RentalReturn, (item) => item.order)
+  rentalReturn: RentalReturn;
 }

@@ -8,11 +8,12 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { ShippingStatus } from '@/modules/entity/shipping.entity';
 import { Column } from 'typeorm';
 import { GenerateAndSetPath } from '@/base/validators/validators.transformer';
 import { Expose } from 'class-transformer';
 import { ApiHideProperty, OmitType, PartialType } from '@nestjs/swagger';
+import { ShippingStatus } from '@/modules/ecommerce/enums/order.enum';
+import { ShippingMethod } from '@/modules/ecommerce/enums/shipping.enum';
 
 export class ShippingDto {
   @IsUUID()
@@ -26,6 +27,10 @@ export class ShippingDto {
   @IsOptional()
   @IsString()
   trackingNumber?: string;
+
+  @IsOptional()
+  @IsEnum(ShippingMethod)
+  shippingMethod?: ShippingMethod;
 
   @IsOptional()
   @IsString()

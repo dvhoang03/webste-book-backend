@@ -81,10 +81,10 @@ export class CheckTransactionSchedule {
           this.logger.log(`Payment ${payment.id} SUCCESS. Updating DB...`);
 
           payment.status = PaymentStatus.PAID;
-          payment.order.status = OrderStatus.WAIT_FOR_SHIPPING;
+          payment.order.status = OrderStatus.WAIT_FOR_DELIVERY;
 
           // Trừ sản phẩm trong kho
-          for (const item of order.purchaseItems ?? []) {
+          for (const item of order.orderItems ?? []) {
             await this.bookRepository.decrement(
               { id: item.bookId },
               'stockQty',
@@ -108,7 +108,7 @@ export class CheckTransactionSchedule {
           payment.order.status = OrderStatus.PAYMENT_ERROR;
 
           // Mở kho lại (unlock stock)
-          for (const item of order.purchaseItems ?? []) {
+          for (const item of order.orderItems ?? []) {
             await this.userCreateOrderService.unLockProduct(
               item.book,
               item.quantity,

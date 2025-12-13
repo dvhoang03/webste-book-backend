@@ -46,5 +46,5 @@ export class ReturnItem {
   reason?: ReturnReason;
 
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
-  refundAmount: string;
+  refundAmount: number;
 }

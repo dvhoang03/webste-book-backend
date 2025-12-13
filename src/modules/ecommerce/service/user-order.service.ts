@@ -28,7 +28,7 @@ export class UserOrderService extends BaseService<Order> {
     // Bạn cũng có thể chỉ JOIN để filter/sort mà không SELECT
     qb.leftJoinAndSelect(`${alias}.shipping`, 'shipping');
     qb.leftJoinAndSelect(`${alias}.payment`, 'payment');
-    qb.leftJoinAndSelect(`${alias}.purchaseItems`, 'orderItem');
+    qb.leftJoinAndSelect(`${alias}.orderItems`, 'orderItem');
     qb.leftJoinAndSelect(`${alias}.rentalItems`, 'rentalItem');
 
     return qb;

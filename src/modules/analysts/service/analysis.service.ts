@@ -17,8 +17,6 @@ export class AnalysisService extends BaseService<User> {
     private readonly orderEntity: Repository<Order>,
     @InjectRepository(OrderItem)
     private readonly orderItemEntity: Repository<OrderItem>,
-
-    // ✅ FIX 1: Inject đúng Repository cho RentalItem (Lúc trước bạn để Order)
     @InjectRepository(RentalItem)
     private readonly rentalItemEntity: Repository<RentalItem>,
 
@@ -43,7 +41,7 @@ export class AnalysisService extends BaseService<User> {
       status: OrderStatus.PAYMENT_ERROR,
     });
     const totalOrderWaitForShipping = await this.orderEntity.countBy({
-      status: OrderStatus.WAIT_FOR_SHIPPING,
+      status: OrderStatus.WAIT_FOR_DELIVERY,
     });
     const totalOrderRefund = await this.orderEntity.countBy({
       status: OrderStatus.REFUNDED,

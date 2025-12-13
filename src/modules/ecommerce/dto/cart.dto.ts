@@ -3,7 +3,14 @@ import {
   ApiPropertyOptional,
   PartialType,
 } from '@nestjs/swagger';
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, IsUUID } from 'class-validator';
+import {
+  IsBoolean,
+  IsEnum,
+  IsInt,
+  IsNotEmpty,
+  IsOptional,
+  IsUUID,
+} from 'class-validator';
 import {
   RentalType,
   TransactionType,
@@ -34,6 +41,10 @@ export class CartItemDto extends CartDto {
   @IsNotEmpty()
   @IsInt()
   quantity: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isSelected: boolean;
 
   @IsOptional()
   @IsEnum(RentalType)

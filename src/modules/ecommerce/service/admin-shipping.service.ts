@@ -8,7 +8,10 @@ import {
   CreateShippingDto,
   UpdateShippingDto,
 } from '@/modules/ecommerce/dto/shipping.dto';
-import { OrderStatus } from '@/modules/ecommerce/enums/order.enum';
+import {
+  OrderStatus,
+  ShippingStatus,
+} from '@/modules/ecommerce/enums/order.enum';
 
 @Injectable()
 export class AdminShippingService extends BaseService<Shipping> {
@@ -23,11 +26,16 @@ export class AdminShippingService extends BaseService<Shipping> {
   async createShipping(dto: CreateShippingDto) {
     const order = await this.orderService.getOne({
       id: dto.orderId,
-      status: OrderStatus.WAIT_FOR_SHIPPING,
+      status: OrderStatus.WAIT_FOR_DELIVERY,
     });
-    const shipping = await this.create({ ...dto, addressId: order.addressId });
+    const shipping = await this.create({
+      ...dto,
+      status: ShippingStatus.SHIPPING,
+      addressId: order.addressId,
+    });
     return await this.orderService.update(order.id, {
       shippingId: shipping.id,
+      status: OrderStatus.SHIPPING,
     });
   }
 
