@@ -51,7 +51,12 @@ export class UserOrderController {
       id: param.id,
       userId: user.id,
     });
-    if (!order || order.status !== OrderStatus.WAIT_FOR_DELIVERY) {
+    console.log(order);
+    if (
+      !order ||
+      (order.status !== OrderStatus.WAIT_FOR_DELIVERY &&
+        order.status !== OrderStatus.PROCESSING)
+    ) {
       throw new BadRequestException('Order is shipping, must be not cancel');
     }
     return await this.userOrder.update(param.id, {
