@@ -7,6 +7,7 @@ import {
   IsOptional,
   IsString,
   IsUUID,
+  Min,
   ValidateIf,
   ValidateNested,
 } from 'class-validator';
@@ -30,6 +31,7 @@ export class Items {
 
   @IsNotEmpty()
   @IsInt()
+  @Min(1)
   quantity: number;
 
   @ValidateIf((object, value) => object.type === TransactionType.RENTAL)

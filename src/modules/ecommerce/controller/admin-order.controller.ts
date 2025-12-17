@@ -42,7 +42,11 @@ export class AdminOrderController {
   @Patch(':id')
   async cancelOrder(@Param() param: PostgresIdParam) {
     const order = await this.userOrder.getOne(param);
-    if (!order || order.status !== OrderStatus.WAIT_FOR_DELIVERY) {
+    if (
+      !order ||
+      (order.status !== OrderStatus.WAIT_FOR_DELIVERY &&
+        order.status !== OrderStatus.PROCESSING)
+    ) {
       throw new BadRequestException('Order is shipping, must be not cancel');
     }
     return await this.userOrder.update(param.id, {

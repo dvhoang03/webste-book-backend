@@ -71,7 +71,7 @@ export class CheckTransactionSchedule {
 
         const order = await this.orderRepository.findOne({
           where: { id: payment.order.id },
-          relations: ['purchaseItems', 'rentalItems'],
+          relations: ['orderItems', 'rentalItems'],
         });
 
         if (!order) return;

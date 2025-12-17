@@ -58,10 +58,12 @@ export class UserCreateOrderCartService {
       addressId: dto.addressId,
       rentalType: check,
     };
-    return await this.userCreateOrderService.createOrder(
+    const result = await this.userCreateOrderService.createOrder(
       user,
       dataOrder,
       ipAddr,
     );
+    await this.cartItemRepo.delete(cartItems.map((i) => i.id));
+    return result;
   }
 }
