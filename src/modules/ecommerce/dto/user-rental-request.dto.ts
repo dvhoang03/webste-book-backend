@@ -7,7 +7,10 @@ import {
   IsString,
   IsUUID,
   ArrayMinSize,
+  IsEnum,
 } from 'class-validator';
+import { Column } from 'typeorm';
+import { ShippingMethod } from '@/modules/ecommerce/enums/shipping.enum';
 
 export class UserCreateRentalReturnDto {
   @IsUUID('4')
@@ -31,4 +34,8 @@ export class UserCreateRentalReturnDto {
   @IsString()
   @IsOptional()
   trackingNumber?: string; // Mã vận đơn (nếu khách tự gửi)
+
+  @IsOptional()
+  @IsEnum(ShippingMethod)
+  shippingMethod?: ShippingMethod;
 }

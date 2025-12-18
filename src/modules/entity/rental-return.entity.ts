@@ -60,7 +60,7 @@ export class RentalReturn {
   @JoinColumn({ name: 'addressId' })
   address: Address;
 
-  @Column({ enum: ShippingMethod })
+  @Column({ enum: ShippingMethod, default: ShippingMethod.SHOP_DELIVERY })
   shippingMethod: ShippingMethod;
 
   @Column({ type: 'text', nullable: true })
