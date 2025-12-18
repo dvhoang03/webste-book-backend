@@ -30,7 +30,7 @@ export class RentalReturnDto {
 
 export class CreateRentalReturnDto extends RentalReturnDto {}
 
-export class IpdateRentalReturnDto extends PartialType(
+export class UpdateRentalReturnDto extends PartialType(
   OmitType(RentalReturnDto, ['orderId']),
 ) {}
 

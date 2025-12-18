@@ -67,6 +67,10 @@ import { BannerService } from '@/modules/ecommerce/service/banner.service';
 import { UserCreateOrderCartService } from '@/modules/ecommerce/service/user-create-order-cart.service';
 import { UserRentalReturnController } from '@/modules/ecommerce/controller/user-rental-return.controller';
 import { UserRentalReturnService } from '@/modules/ecommerce/service/user-rental-return.service';
+import { AdminRentalItemController } from '@/modules/ecommerce/controller/admin-rental-item.controller';
+import { AdminRentalReturnService } from '@/modules/ecommerce/service/admin-rental-return.service';
+import { AdminRentalReturnController } from '@/modules/ecommerce/controller/admin-rental-return.controller';
+import { AdminRentalItemService } from '@/modules/ecommerce/service/admin-rental-item.service';
 
 @Module({
   imports: [
@@ -111,6 +115,8 @@ import { UserRentalReturnService } from '@/modules/ecommerce/service/user-rental
     AdminPolicyController,
     AdminOrderController,
     AdminBannerController,
+    AdminRentalItemController,
+    AdminRentalReturnController,
 
     UserOrderController,
     UserBookController,
@@ -135,6 +141,9 @@ import { UserRentalReturnService } from '@/modules/ecommerce/service/user-rental
     AdminCategoryService,
     AdminShippingService,
     AdminPolicyService,
+    AdminRentalItemService,
+    AdminRentalReturnService,
+
     BannerService,
 
     UserBookService,
