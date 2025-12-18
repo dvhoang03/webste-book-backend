@@ -20,6 +20,7 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
   ): SelectQueryBuilder<RentalReturn> {
     const alias = qb.alias;
     qb.leftJoinAndSelect(`${alias}.order`, 'order');
+    qb.leftJoinAndSelect(`${alias}.user`, 'user');
     return qb;
   }
 }

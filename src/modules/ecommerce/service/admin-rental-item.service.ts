@@ -21,4 +21,11 @@ export class AdminRentalItemService extends BaseService<RentalItem> {
     qb.leftJoinAndSelect(`${alias}.book`, 'book');
     return qb;
   }
+
+  async listForOrder(orderId: string) {
+    return await this.rentalItemRepo.find({
+      where: { orderId },
+      relations: ['book'],
+    });
+  }
 }
