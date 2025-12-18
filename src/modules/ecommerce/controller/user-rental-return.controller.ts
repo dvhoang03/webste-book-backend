@@ -39,7 +39,10 @@ export class UserRentalReturnController {
 
   @Get(':id')
   async getDetail(@Param() param: PostgresIdParam) {
-    const rentalReturn = await this.adminService.getOne(param, ['user']);
+    const rentalReturn = await this.adminService.getOne(param, [
+      'user',
+      'order',
+    ]);
     const rentalItem = await this.adminRentalItemService.listForOrder(
       rentalReturn.orderId,
     );
