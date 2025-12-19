@@ -78,6 +78,15 @@ export class RentalReturn {
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
   refundAmount: number;
 
+  @Column({
+    type: 'numeric',
+    precision: 12,
+    scale: 2,
+    default: 0,
+    nullable: true,
+  })
+  totalPenalty: number;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 

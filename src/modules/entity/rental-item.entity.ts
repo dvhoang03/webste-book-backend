@@ -36,6 +36,12 @@ export class RentalItem {
   @Column({ type: 'int' })
   quantity: number;
 
+  @Column({ type: 'int', nullable: true })
+  returnQuantity?: number;
+
+  @Column({ nullable: true })
+  penalty?: number;
+
   // --- XÓA CÁC TRƯỜNG BỊ TRÙNG LẶP ---
   /*
   @Column({ type: 'text', nullable: true })

@@ -1,4 +1,14 @@
-import { IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsUUID,
+  Min,
+  ValidateIf,
+  ValidateNested,
+} from 'class-validator';
 import {
   ApiHideProperty,
   ApiPropertyOptional,
@@ -6,6 +16,20 @@ import {
   PartialType,
 } from '@nestjs/swagger';
 import { BaseListDto } from '@/base/service/base-list.dto';
+import { RentalReturnStatus } from '@/modules/ecommerce/enums/rental.enum';
+import { Type } from 'class-transformer';
+
+export class RentalItemReturnDto {
+  @IsUUID()
+  id: string;
+
+  @IsInt()
+  @Min(0)
+  returnQuantity: number;
+
+  @IsInt()
+  penalty: number;
+}
 
 export class RentalReturnDto {
   @IsUUID()
@@ -16,8 +40,12 @@ export class RentalReturnDto {
   @IsUUID()
   userId?: string;
 
+  @IsEnum(RentalReturnStatus)
+  status: RentalReturnStatus;
+
+  @IsOptional()
   @IsUUID()
-  addressId: string;
+  addressId?: string;
 
   @IsOptional()
   @IsString()
@@ -25,7 +53,15 @@ export class RentalReturnDto {
 
   @IsOptional()
   @IsString()
+  adminNote?: string;
+
+  @IsOptional()
+  @IsString()
   receivedAt?: Date;
+
+  @ValidateNested()
+  @Type(() => RentalItemReturnDto)
+  rentalItems?: RentalItemReturnDto[];
 }
 
 export class CreateRentalReturnDto extends RentalReturnDto {}
