@@ -1,4 +1,5 @@
 import {
+  IsDate,
   IsEnum,
   IsInt,
   IsNumber,
@@ -56,7 +57,8 @@ export class RentalReturnDto {
   adminNote?: string;
 
   @IsOptional()
-  @IsString()
+  @IsDate()
+  @Type(() => Date)
   receivedAt?: Date;
 
   @ValidateNested()

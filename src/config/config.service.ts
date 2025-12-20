@@ -16,7 +16,7 @@ export class ConfigService {
   DOMAIN = env.DOMAIN || 'http://localhost:3000';
 
   POSTGRES = {
-    HOST: isDev() ? 'localhost' : (env.DB_HOST ?? 'localhost'),
+    HOST: isDev() ? '192.168.0.101' : (env.DB_HOST ?? 'localhost'),
     PORT: Number(env.DB_PORT || '5432'),
     USER: env.DB_USER || 'admin',
     PASSWORD: env.DB_PASSWORD || 'book123',
