@@ -37,6 +37,6 @@ export class AdminRentalReturnController {
     @Param() param: PostgresIdParam,
     @Body() dto: UpdateRentalReturnDto,
   ) {
-    return await this.service.update(param.id, dto);
+    return await this.service.updateReturn(param.id, dto);
   }
 }

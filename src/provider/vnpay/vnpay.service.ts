@@ -118,7 +118,7 @@ export class VnPayService {
     }
 
     // 2. Kiểm tra số tiền
-    if (payment.amount !== vnpAmount) {
+    if (parseInt(payment.amount.toString()) !== vnpAmount) {
       return { RspCode: '04', Message: 'Invalid amount' };
     }
 
