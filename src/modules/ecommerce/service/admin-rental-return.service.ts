@@ -68,9 +68,15 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
       0,
     );
 
+    const totalRefundAmount = itemsRental.reduce(
+      (total, item) =>
+        item?.book?.rentDeposit ? total + item?.book?.rentDeposit : total,
+      0,
+    );
     return await this.update(id, {
       totalPenalty,
       overdueFee: days * overdueUnit,
+      refundAmount: totalRefundAmount - days * overdueUnit - totalPenalty,
     });
   }
 }
