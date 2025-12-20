@@ -2,6 +2,7 @@ import {
   IsDate,
   IsEnum,
   IsInt,
+  IsISO8601,
   IsNumber,
   IsOptional,
   IsString,
@@ -57,9 +58,8 @@ export class RentalReturnDto {
   adminNote?: string;
 
   @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  receivedAt?: Date;
+  @IsISO8601()
+  receivedAt?: string;
 
   @ValidateNested()
   @Type(() => RentalItemReturnDto)

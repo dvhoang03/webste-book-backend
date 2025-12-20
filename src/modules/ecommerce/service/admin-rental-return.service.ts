@@ -6,6 +6,9 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { BaseListDto } from '@/base/service/base-list.dto';
 import { AdminRentalItemService } from '@/modules/ecommerce/service/admin-rental-item.service';
 import { UpdateRentalReturnDto } from '@/modules/ecommerce/dto/rental-return.dto';
+import { AdminOrderController } from '@/modules/ecommerce/controller/admin-order.controller';
+import { UserOrderService } from '@/modules/ecommerce/service/user-order.service';
+import moment from 'moment';
 
 @Injectable()
 export class AdminRentalReturnService extends BaseService<RentalReturn> {
@@ -13,6 +16,7 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
     @InjectRepository(RentalReturn)
     private readonly rentalReturnRepo: Repository<RentalReturn>,
     private readonly adminReturnItemService: AdminRentalItemService,
+    private readonly adminOrderService: UserOrderService,
   ) {
     super(rentalReturnRepo);
   }
@@ -32,6 +36,15 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
       status: dto.status,
       adminNote: dto.adminNote,
     });
+    const order = await this.adminOrderService.getOne({
+      id: rentalReturn.orderId,
+    });
+    const days = Math.max(
+      0,
+      moment(dto.receivedAt)
+        .startOf('day')
+        .diff(moment(order.rentDue).startOf('day'), 'days'),
+    );
 
     if (dto?.rentalItems) {
       for (const item of dto.rentalItems) {
@@ -47,6 +60,17 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
       0,
     );
 
-    return await this.update(id, { totalPenalty });
+    const overdueUnit = itemsRental.reduce(
+      (total, item) =>
+        item?.book?.rentPenaltyPerDay
+          ? total + item?.book?.rentPenaltyPerDay
+          : total,
+      0,
+    );
+
+    return await this.update(id, {
+      totalPenalty,
+      overdueFee: days * overdueUnit,
+    });
   }
 }

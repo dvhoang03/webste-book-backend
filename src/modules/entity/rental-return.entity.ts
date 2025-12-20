@@ -78,6 +78,9 @@ export class RentalReturn {
   @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
   refundAmount: number;
 
+  @Column({ type: 'numeric', precision: 12, scale: 2, default: 0 })
+  overdueFee: number;
+
   @Column({
     type: 'numeric',
     precision: 12,
