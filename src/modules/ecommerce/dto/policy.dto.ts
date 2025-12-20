@@ -1,12 +1,17 @@
 import { IsString } from 'class-validator';
 import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { BaseListDto } from '@/base/service/base-list.dto';
+import {
+  IsSlugUnique,
+  IsUniqueSlugValidate,
+} from '@/modules/ecommerce/custom-validate/unique-slug-policy.validate';
 
 export class PolicyDto {
   @IsString()
   title: string;
 
   @IsString()
+  @IsSlugUnique()
   slug: string;
 
   @IsString()

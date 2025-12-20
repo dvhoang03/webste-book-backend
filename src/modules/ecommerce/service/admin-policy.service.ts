@@ -14,6 +14,7 @@ import { LoggingService } from '@/base/logging/logging.service';
 import { TaskType } from '@google/generative-ai';
 import { BaseListDto } from '@/base/service/base-list.dto';
 import { Book } from '@/modules/entity';
+import * as striptags from 'striptags';
 
 @Injectable()
 export class AdminPolicyService extends BaseService<Policy> {
@@ -40,9 +41,9 @@ export class AdminPolicyService extends BaseService<Policy> {
   }
 
   async createPolicy(createPolicyDto: CreatePolicyDto) {
-    console.log(config.GOOGLE_API_KEY);
-    const vector = await this.generateEmbedding(createPolicyDto.content);
-    console.log(vector);
+    const cleanContent = striptags(createPolicyDto.content);
+    const vector = await this.generateEmbedding(cleanContent);
+    console.log(cleanContent);
     // 2. Tạo entity kèm vector
     const newPolicy = this.policyModel.create({
       ...createPolicyDto,
@@ -56,7 +57,8 @@ export class AdminPolicyService extends BaseService<Policy> {
 
     // Nếu có sửa nội dung thì phải tạo lại vector mới
     if (updatePolicyDto.content && updatePolicyDto.content !== policy.content) {
-      const vector = await this.generateEmbedding(updatePolicyDto.content);
+      const cleanContent = striptags(updatePolicyDto.content);
+      const vector = await this.generateEmbedding(cleanContent);
       policy.embedding = vector;
     }
 

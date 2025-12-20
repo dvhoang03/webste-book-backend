@@ -28,6 +28,6 @@ export class AdminPolicyController {
     @Param() param: PostgresIdParam,
     @Body() updatePolicyDto: UpdatePolicyDto,
   ) {
-    return await this.service.update(param.id, updatePolicyDto);
+    return await this.service.updatePolicy(param.id, updatePolicyDto);
   }
 }

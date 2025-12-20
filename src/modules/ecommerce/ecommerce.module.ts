@@ -71,6 +71,7 @@ import { AdminRentalItemController } from '@/modules/ecommerce/controller/admin-
 import { AdminRentalReturnService } from '@/modules/ecommerce/service/admin-rental-return.service';
 import { AdminRentalReturnController } from '@/modules/ecommerce/controller/admin-rental-return.controller';
 import { AdminRentalItemService } from '@/modules/ecommerce/service/admin-rental-item.service';
+import { IsUniqueSlugValidate } from '@/modules/ecommerce/custom-validate/unique-slug-policy.validate';
 
 @Module({
   imports: [
@@ -133,6 +134,7 @@ import { AdminRentalItemService } from '@/modules/ecommerce/service/admin-rental
   providers: [
     IsUniqueEmailValidate,
     IsUniqueSkuValidate,
+    IsUniqueSlugValidate,
 
     AdminUserService,
     AdminBookService,
