@@ -8,7 +8,7 @@ import { AdminRentalItemService } from '@/modules/ecommerce/service/admin-rental
 import { UpdateRentalReturnDto } from '@/modules/ecommerce/dto/rental-return.dto';
 import { AdminOrderController } from '@/modules/ecommerce/controller/admin-order.controller';
 import { UserOrderService } from '@/modules/ecommerce/service/user-order.service';
-import moment from 'moment';
+import * as moment from 'moment';
 
 @Injectable()
 export class AdminRentalReturnService extends BaseService<RentalReturn> {
