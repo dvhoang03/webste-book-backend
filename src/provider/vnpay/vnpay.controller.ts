@@ -4,6 +4,7 @@ import { VnPayService } from '@/provider/vnpay/vnpay.service';
 import { SkipAuth } from '@/modules/auth/auth.decorator';
 import { Response } from 'express';
 import { LoggingService } from '@/base/logging/logging.service';
+import { config } from '@/config';
 
 @ApiTagAndBearer('App/ VnPay')
 @SkipAuth()
@@ -41,18 +42,18 @@ export class VnPayController {
       if (responseCode === '00') {
         // Thành công
         // Chuyển hướng về trang success của Frontend
-        // res.redirect(`${frontEndSuccessUrl}?orderId=${orderId}`);
+        res.redirect(config.PAYMENT.PAYMENTSUCCESS || '');
         console.log('thanh toan success');
       } else {
         // Thất bại
-        // res.redirect(`${frontEndFailedUrl}?orderId=${orderId}&code=${responseCode}`);
+        res.redirect(config.PAYMENT.PAYMENTFAILED || '');
         console.log('thanh toan failed');
       }
     } else {
       // Checksum sai
-      // res.redirect(`${frontEndFailedUrl}?orderId=${orderId}&code=97`);
+      res.redirect(config.PAYMENT.PAYMENTFAILED || '');
       console.log('thanh toan failed do checksum');
     }
-    res.redirect('https://www.facebook.com/angelordemonn');
+    // res.redirect('https://www.facebook.com/angelordemonn');
   }
 }
