@@ -1,0 +1,113 @@
+version: '3.9'
+
+services:
+  # Dịch vụ NestJS App
+  api:
+    build:
+      context: . # Chỉ định Dockerfile nằm trong thư mục hiện tại
+      dockerfile: Dockerfile
+    container_name: nestjs_api
+    restart: unless-stopped
+    env_file:
+      - ./.env # Nạp các biến môi trường từ file .env
+    ports:
+      - "3000:3000" # Map cổng 3000 của container ra cổng 3000 của máy host
+    depends_on:
+      - db
+      - redis
+      - minio
+    #      - python_chatbot # Đợi python chạy
+    #    volumes:
+    # Nếu bạn cần mount code để development (hot-reload), bỏ comment dòng dưới.
+    # Đối với production, không cần mount code vì đã được build vào image.
+    # - .:/usr/src/app
+    # - /usr/src/app/node_modules # Để tránh ghi đè node_modules của host
+
+  # Dịch vụ Postgres
+  db:
+    image: pgvector/pgvector:pg16
+    container_name: postgres_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    # THÊM ĐOẠN NÀY:
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data   # Lưu dữ liệu PostgreSQL vào thư mục thật
+      - ./init-db:/docker-entrypoint-initdb.d
+
+  # Dịch vụ Redis
+  redis:
+    image: redis:7.4
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data   # Dữ liệu Redis lưu trong volume
+    command: [ "redis-server", "--appendonly", "yes" ]
+    # Bật AOF để lưu dữ liệu bền vững hơn (so với chỉ RDB snapshot)
+
+  # Dịch vụ Minio
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
+
+  #  python_chatbot:
+  #    image: python:3.9-slim
+  #    container_name: python_chatbot
+  #    working_dir: /app
+  #    volumes:
+  #      - ./python-chatbot:/app # Mount code vào để dev
+  #    environment:
+  #      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+  #      # Connection string tới container postgres_db
+  #      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@postgres_db:5432/${DB_NAME}
+  #    command: >
+  #      sh -c "pip install -r requirements.txt &&
+  #             uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+  #    ports:
+  #      - "8000:8000"
+
+  # --- THÊM SERVICE NÀY ---
+  db_setup:
+    image: pgvector/pgvector:pg16 # Dùng chung image với db
+    container_name: db_setup
+    restart: "no" # Chỉ chạy 1 lần rồi thôi, không tự khởi động lại
+    depends_on:
+      db:
+        condition: service_healthy # Chỉ chạy khi DB đã sẵn sàng (Cần healthcheck ở service db)
+    volumes:
+      - ./scripts:/scripts # Mount thư mục chứa file SQL vào
+    environment:
+      PGPASSWORD: ${DB_PASSWORD} # Password của admin để có quyền tạo user
+    entrypoint: [ "/bin/bash", "-c" ]
+    # Lệnh: Đợi 5s cho chắc, sau đó chạy psql để thực thi file sql
+    command:
+      - |
+        echo "Waiting for database..."
+        sleep 5
+        echo "Running setup script..."
+        psql -h db -U ${DB_USER} -d ${DB_NAME} -f /scripts/create-bot-user.sql
+        echo "Setup done!"
+
+volumes:
+  redis_data:

@@ -95,4 +95,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+ docker exec -it postgres_db psql -U admin -d book -c "GRANT SELECT ON ALL TABLES IN SCHEMA public TO bot_user;"
