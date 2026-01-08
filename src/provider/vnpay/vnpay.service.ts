@@ -135,7 +135,7 @@ export class VnPayService {
       where: {
         id: payment.order.id,
       },
-      relations: ['purchaseItems', 'rentalItems'],
+      relations: ['orderItems', 'rentalItems'],
     });
 
     if (isSuccess) {
@@ -144,7 +144,7 @@ export class VnPayService {
         await this.bookRepository.decrement(
           { id: orderItem.bookId },
           'stockQty',
-          -1 * orderItem.quantity,
+          1 * orderItem.quantity,
         );
       });
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -152,7 +152,7 @@ export class VnPayService {
         await this.bookRepository.decrement(
           { id: orderItem.bookId },
           'stockQty',
-          -1 * orderItem.quantity,
+          1 * orderItem.quantity,
         );
       });
       // Cập nhật Order status

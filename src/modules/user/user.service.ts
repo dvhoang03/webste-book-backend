@@ -23,7 +23,7 @@ export class UserService {
     const user = await this.findOneEmail(email);
     if (!user) throw new UnauthorizedException();
     if (!(await bcrypt.compare(plain, user.password)))
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Sai tài khoản hoặc mật khẩu.');
     return user;
   }
 }

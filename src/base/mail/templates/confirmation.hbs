@@ -1,11 +1,61 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <h2>Xin chào {{username}},</h2>
-    <p>Cảm ơn bạn đã đăng ký tài khoản tại <b>Laoshop</b>.</p>
-    <p>Nhấn vào link dưới đây để xác nhận tài khoản:</p>
-    <a >{{url}}</a>
-    <br><br>
-    <small>Đừng trả lời email này, đây là email tự động.</small>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mã xác thực BookHaven</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f6f5f3; font-family: 'Georgia', serif;">
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tr>
+    <td align="center" style="padding: 40px 0;">
+
+      <table border="0" cellpadding="0" cellspacing="0" width="600"
+             style="background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 4px; overflow: hidden;">
+
+        <tr>
+          <td align="center" style="padding: 30px; background-color: #2c3e50;">
+            <h1 style="color: #ffffff; margin: 0; font-family: sans-serif; letter-spacing: 2px; font-size: 24px;">
+              BOOKHAVEN</h1>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding: 40px 30px; text-align: center;">
+            <h2 style="color: #333333; font-size: 22px; margin-bottom: 20px;">Xin chào {{username}},</h2>
+
+            <p
+              style="color: #555555; font-size: 16px; line-height: 1.6; margin-bottom: 30px; font-family: Arial, sans-serif;">
+              Cảm ơn bạn đã tham gia cộng đồng <b>BookHaven</b>. Để hoàn tất đăng ký, vui lòng nhập mã xác thực dưới
+              đây:
+            </p>
+
+            <div
+              style="background-color: #fcf8e3; border: 2px dashed #d35400; padding: 20px; display: inline-block; margin-bottom: 30px; border-radius: 8px;">
+              <span
+                style="font-size: 32px; font-weight: bold; letter-spacing: 5px; color: #d35400; font-family: monospace;">{{otp}}</span>
+            </div>
+
+            <p style="color: #777777; font-size: 14px; font-family: Arial, sans-serif;">
+              Mã này có hiệu lực trong vòng 10 phút. Vui lòng không chia sẻ mã này cho bất kỳ ai.
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="background-color: #f9f9f9; padding: 20px; text-align: center; border-top: 1px solid #eeeeee;">
+            <p style="color: #999999; font-size: 12px; font-family: Arial, sans-serif; margin: 0;">
+              Đây là email tự động từ hệ thống BookHaven.<br>
+              Vui lòng không trả lời email này.
+            </p>
+          </td>
+        </tr>
+      </table>
+
+    </td>
+  </tr>
+</table>
+
+</body>
 </html>

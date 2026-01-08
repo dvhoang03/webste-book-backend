@@ -23,7 +23,7 @@ export class IsUniqueEmailValidate implements ValidatorConstraintInterface {
     return !user;
   }
   defaultMessage?(validationArguments?: ValidationArguments): string {
-    return 'email already ';
+    return 'email đã tồn tại.';
   }
 }
 

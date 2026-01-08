@@ -213,13 +213,13 @@ export class UserCreateOrderService extends BaseService<Order> {
           };
           await queryRunner.manager.save(this.orderItemRepo.create(orderItem));
         }
-        await queryRunner.manager.update(
-          Book,
-          { id: item.book.id },
-          {
-            stockQty: item.book.stockQty - item.quantity,
-          },
-        );
+        // await queryRunner.manager.update(
+        //   Book,
+        //   { id: item.book.id },
+        //   {
+        //     stockQty: item.book.stockQty - item.quantity,
+        //   },
+        // );
       }
 
       // 6. Mọi thứ OK -> Commit CSDL
@@ -270,7 +270,9 @@ export class UserCreateOrderService extends BaseService<Order> {
     }
 
     if (stockQty < quantity)
-      throw new BadRequestException('Sản phẩm đã hết hàng hoặc không đủ qty');
+      throw new BadRequestException(
+        'Sản phẩm đã hết hàng hoặc không đủ số lượng.',
+      );
 
     const lockedCount = await this.cache.incrby(stockKey, -1 * quantity);
 

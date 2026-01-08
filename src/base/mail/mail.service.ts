@@ -20,15 +20,15 @@ export class MailService {
   }
 
   async send(email: string, token: string) {
-    const url = token;
+    const otp = token;
 
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Xac nhantai khoan cuar banj',
+      subject: 'Xac nhận tài khoản của bạn.',
       template: './confirmation',
       context: {
         username: 'hoang',
-        url,
+        otp,
       },
     });
   }

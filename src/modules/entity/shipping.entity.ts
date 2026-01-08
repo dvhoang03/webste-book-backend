@@ -32,7 +32,7 @@ export class Shipping {
   @OneToOne(() => Order, (order) => order.shipping)
   order: Order;
 
-  @Column({ enum: ShippingMethod })
+  @Column({ enum: ShippingMethod, nullable: true })
   shippingMethod: ShippingMethod;
 
   @Column({ type: 'text', nullable: true })
