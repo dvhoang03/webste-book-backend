@@ -9,6 +9,7 @@ import { UpdateRentalReturnDto } from '@/modules/ecommerce/dto/rental-return.dto
 import { AdminOrderController } from '@/modules/ecommerce/controller/admin-order.controller';
 import { UserOrderService } from '@/modules/ecommerce/service/user-order.service';
 import * as moment from 'moment';
+import { AdminBookService } from '@/modules/ecommerce/service/admin-book.service';
 
 @Injectable()
 export class AdminRentalReturnService extends BaseService<RentalReturn> {
@@ -17,6 +18,7 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
     private readonly rentalReturnRepo: Repository<RentalReturn>,
     private readonly adminReturnItemService: AdminRentalItemService,
     private readonly adminOrderService: UserOrderService,
+    private readonly bookService: AdminBookService,
   ) {
     super(rentalReturnRepo);
   }
@@ -49,6 +51,15 @@ export class AdminRentalReturnService extends BaseService<RentalReturn> {
     if (dto?.rentalItems) {
       for (const item of dto.rentalItems) {
         await this.adminReturnItemService.update(item.id, { ...item });
+        const itemReturn = await this.adminReturnItemService.getOne(
+          {
+            id: item.id,
+          },
+          ['book'],
+        );
+        await this.bookService.update(itemReturn.bookId, {
+          stockQty: itemReturn.book.stockQty + item.returnQuantity,
+        });
       }
     }
 
