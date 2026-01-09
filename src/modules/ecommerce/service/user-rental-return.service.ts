@@ -66,6 +66,7 @@ export class UserRentalReturnService {
           id: In(dto.rentalItemIds),
           orderId: dto.orderId, // Đảm bảo các sách thuộc đúng đơn hàng
         },
+        relations: ['book'],
       });
 
       // Kiểm tra nếu số lượng sách tìm thấy không khớp
@@ -89,7 +90,7 @@ export class UserRentalReturnService {
       // 4. Tính tổng số tiền cọc sẽ hoàn lại
       // (Giả định RentalItem có trường 'rentalDeposit' kiểu string)
       const totalRefundAmount = itemsToReturn.reduce(
-        (total, item) => total + Number(item.orderId),
+        (total, item) => total + Number(item.book.rentDeposit) * item.quantity,
         0,
       );
 
