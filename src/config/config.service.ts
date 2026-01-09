@@ -69,6 +69,10 @@ export class ConfigService {
   CHAT_BOT_URL = isDev()
     ? 'http://localhost:8000/chat'
     : env.CHAT_BOT_URL || '';
+  PAYMENT = {
+    PAYMENTSUCCESS: env.PAYMENTSUCCESS,
+    PAYMENTFAILED: env.PAYMENTFAILED,
+  };
 }
 
 export const config = new ConfigService();
